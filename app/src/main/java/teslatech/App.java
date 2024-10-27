@@ -1,4 +1,4 @@
-package src.main.java.teslatech;
+package teslatech;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        System.out.println(getClass().getResource("/src/main/resources/fxml/login.fxml"));
+        System.out.println(getClass().getResource("/fxml/login.fxml"));
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/fxml/login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
 
