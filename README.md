@@ -1,4 +1,4 @@
-# Tesla Tech: Sistema de Ventas de Componentes de Computadoras
+# Tesla Tech
 
 Tesla Tech es un sistema de ventas para la gestión y administración de la venta de componentes de computadoras. Este proyecto está construido en Java utilizando JavaFX para la interfaz gráfica, Gradle como herramienta de construcción y MySQL como base de datos.
 
