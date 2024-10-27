@@ -5,8 +5,9 @@
             "type": "java",
             "name": "App",
             "request": "launch",
-            "mainClass": "App",
-            "projectName": "tesla-tech_86237338"
+            "mainClass": "src.main.java.teslatech.App",
+            "projectName": "tesla-tech_86237338",
+            "vmArgs": "--module-path C:\\Users\\USUARIO\\opt\\javafx-sdk-23\\lib --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }
