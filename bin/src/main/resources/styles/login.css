@@ -1,0 +1,7 @@
+.gradient{
+    -fx-background-color: linear-gradient(to bottom right, #181818, #286155);
+}
+
+.white-form{
+    -fx-background-color: #fff;
+}
