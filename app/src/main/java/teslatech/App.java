@@ -8,16 +8,17 @@ import javafx.stage.Stage;
 
 public class App extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage stage) throws Exception {
         System.out.println(getClass().getResource("/fxml/login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
-        Parent root = loader.load();
         Scene scene = new Scene(root);
 
-        primaryStage.setTitle("Tesla Tech");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.setTitle("Tesla Tech");
+        stage.setMaxWidth(840);
+        stage.setMaxHeight(640);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void main(String[] args) {
