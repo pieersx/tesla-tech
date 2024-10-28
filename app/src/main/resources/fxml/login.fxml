@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -9,31 +11,86 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="teslatech.controllers.LoginController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <AnchorPane prefHeight="600.0" prefWidth="400.0" styleClass="gradient" stylesheets="@../styles/login.css">
+            <AnchorPane fx:id="si_loginForm" layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="118.0" layoutY="456.0" text="Crear una Cuenta" textFill="WHITE">
+                  <Label layoutX="38.0" layoutY="112.0" styleClass="head-label" stylesheets="@../styles/login.css" text="Iniciar Sesión" textFill="#286155">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Button layoutX="89.0" layoutY="507.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="Crear Nueva Cuenta" />
+                  <TextField fx:id="si_username" layoutX="65.0" layoutY="202.0" onAction="#loginBtn" prefHeight="40.0" prefWidth="270.0" promptText="Nombre de Usuario" styleClass="textfield" stylesheets="@../styles/login.css">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <PasswordField fx:id="si_password" layoutX="65.0" layoutY="266.0" onAction="#loginBtn" prefHeight="40.0" prefWidth="270.0" promptText="Contraseña" styleClass="textfield" stylesheets="@../styles/login.css">
+                     <font>
+                        <Font size="14.0" />
+                     </font></PasswordField>
+                  <Button fx:id="si_loginBtn" layoutX="65.0" layoutY="362.0" mnemonicParsing="false" onAction="#loginBtn" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Iniciar Sesión">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Hyperlink fx:id="si_forgotPass" layoutX="65.0" layoutY="321.0" text="¿Has Olvidado tu Contraseña?" />
                </children></AnchorPane>
-            <AnchorPane layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css">
+            <AnchorPane fx:id="su_signupForm" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="38.0" layoutY="112.0" text="Iniciar Sesión" textFill="#286155">
+                  <Label layoutX="38.0" layoutY="112.0" styleClass="head-label" stylesheets="@../styles/login.css" text="Registrar Cuenta" textFill="#286155">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="65.0" layoutY="202.0" prefHeight="40.0" prefWidth="270.0" promptText="Nombre de Usuario" />
-                  <PasswordField layoutX="65.0" layoutY="266.0" prefHeight="40.0" prefWidth="270.0" promptText="Contraseña" />
-                  <Button layoutX="65.0" layoutY="362.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="270.0" text="Acceso" />
-                  <Hyperlink layoutX="65.0" layoutY="321.0" text="¿Has Olvidado tu Contraseña?" />
-               </children></AnchorPane>
+                  <TextField fx:id="su_username" layoutX="65.0" layoutY="178.0" onAction="#regBtn" prefHeight="40.0" prefWidth="270.0" promptText="Nombre de Usuario" styleClass="textfield" stylesheets="@../styles/login.css">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField fx:id="su_password" layoutX="65.0" layoutY="242.0" onAction="#regBtn" prefHeight="40.0" prefWidth="270.0" promptText="Contraseña" styleClass="textfield" stylesheets="@../styles/login.css">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <Button fx:id="su_signupBtn" layoutX="65.0" layoutY="440.0" mnemonicParsing="false" onAction="#regBtn" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Registrar">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <ComboBox fx:id="su_question" layoutX="65.0" layoutY="308.0" prefHeight="40.0" prefWidth="270.0" promptText="Preguntas" styleClass="textfield" stylesheets="@../styles/login.css" />
+                  <TextField fx:id="su_answer" layoutX="65.0" layoutY="374.0" onAction="#regBtn" prefHeight="40.0" prefWidth="270.0" promptText="Respuesta" styleClass="textfield" stylesheets="@../styles/login.css">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="side_form" prefHeight="600.0" prefWidth="400.0" styleClass="gradient" stylesheets="@../styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="104.0" layoutY="434.0" text="Crear una Cuenta" textFill="WHITE">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="side_CreateBtn" layoutX="75.0" layoutY="485.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="250.0" styleClass="create-btn" stylesheets="@../styles/login.css" text="Crear Nueva Cuenta">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="side_alreadyHave" layoutX="75.0" layoutY="485.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="250.0" styleClass="create-btn" stylesheets="@../styles/login.css" text="¿Ya tienes una cuenta?" visible="false">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <FontAwesomeIcon fill="#47bf9e" glyphName="DESKTOP" layoutX="104.0" layoutY="273.0" size="15em" />
+                  <Label layoutX="145.0" layoutY="309.0" text="Tesla Tech" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>
