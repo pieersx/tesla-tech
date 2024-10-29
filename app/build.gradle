@@ -1,50 +1,43 @@
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
+    // Plugin para construir aplicaciones de línea de comandos en Java.
     id 'application'
+
+    // Plugin para JavaFX, que permite agregar soporte para módulos de JavaFX en el proyecto.
     id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 repositories {
-    // Use Maven Central for resolving dependencies.
+    // Repositorio Maven Central para resolver dependencias del proyecto.
     mavenCentral()
 }
 
 javafx {
+    // Especifica la versión de JavaFX y los módulos que se van a utilizar.
     version = "23.0.1"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
-    testImplementation libs.junit.jupiter
-
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    // This dependency is used by the application.
-    implementation libs.guava
-
+    // Dependencias de módulos específicos de JavaFX.
     implementation 'org.openjfx:javafx-controls:23.0.1'
     implementation 'org.openjfx:javafx-fxml:23.0.1'
     implementation 'org.openjfx:javafx-graphics:23.0.1'
 
+    // Dependencia de FontAwesomeFX para agregar iconos en la aplicación JavaFX.
     implementation 'de.jensd:fontawesomefx:8.2'
 
+    // Dependencia para el conector JDBC de MySQL, que permite la conexión a bases de datos MySQL.
     implementation 'mysql:mysql-connector-java:8.0.33'
 }
 
-// Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
+        // Define la versión del lenguaje Java a utilizar, en este caso, la versión 21.
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
 application {
-    // Define the main class for the application.
+    // Clase principal de la aplicación, que sirve como punto de entrada.
     mainClass = 'teslatech.App'
-}
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
 }
