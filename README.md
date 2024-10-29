@@ -31,12 +31,20 @@ Sigue estos pasos para configurar y ejecutar el proyecto en tu máquina local.
 
 ### Requisitos Previos
 
-- [Java JDK 17+](https://adoptium.net/)
-- [Gradle](https://gradle.org/) (si no está incluido en tu entorno de desarrollo)
-- [MySQL](https://www.mysql.com/)
+- [Java JDK 21+](https://www.oracle.com/pe/java/technologies/downloads/)
+- [JavaFX 23+](https://gluonhq.com/products/javafx/)
+- [Gradle 8.10.2](https://gradle.org/)
 
-### Clonar el Repositorio
+### Ejecute el proyecto con:
 
 ```bash
 git clone https://github.com/tu-usuario/tesla-tech.git
 cd tesla-tech
+
+# con gradle instalado en su sistema
+gradle run
+
+# de lo contrario con gradlew
+gradlew.bat run
+./gradlew run
+./gradlew.bat run
