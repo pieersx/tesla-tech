@@ -13,37 +13,11 @@ public class Producto {
         this.stock = stock;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
+    // Getters y Setters
+    public int getId() { return id; }
+    public String getNombre() { return nombre; }
+    public double getPrecio() { return precio; }
+    public int getStock() { return stock; }
 
     public void reducirStock(int cantidad) {
         if (cantidad <= stock) {
@@ -53,7 +27,8 @@ public class Producto {
         }
     }
 
+    @Override
     public String toString() {
-        return "Producto { ID = " + id + ", Nombre = '" + nombre + "', Precio = $" + precio + ", Stock = " + stock + " }";
+        return "Producto{id=" + id + ", nombre='" + nombre + "', precio=" + precio + ", stock=" + stock + '}';
     }
 }

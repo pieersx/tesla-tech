@@ -12,9 +12,7 @@ public class ServicioCliente {
 
     public Cliente buscarCliente(int id) {
         for (Cliente c : clientes) {
-            if (c.getId() == id) {
-                return c;
-            }
+            if (c.getId() == id) return c;
         }
         return null;
     }

@@ -11,31 +11,13 @@ public class Cliente {
         this.email = email;
     }
 
-    public int getId() {
-        return id;
-    }
+    // Getters y Setters
+    public int getId() { return id; }
+    public String getNombre() { return nombre; }
+    public String getEmail() { return email; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    @Override
     public String toString() {
-        return "Cliente { ID = " + id + ", Nombre = '" + nombre + "', Email = '" + email + "' }";
+        return "Cliente{id=" + id + ", nombre='" + nombre + "', email='" + email + "'}";
     }
 }

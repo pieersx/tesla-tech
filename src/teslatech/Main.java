@@ -24,11 +24,10 @@ public class Main {
         detalles.add(new DetalleVenta(p1, 1));
         detalles.add(new DetalleVenta(p2, 2));
 
-        System.out.println("=== Realizando Venta ===");
         servicioVenta.realizarVenta(c1, detalles);
 
         // Mostrar productos actualizados
-        System.out.println("\n=== Productos Después de la Venta ===");
+        System.out.println("\nProductos después de la venta:");
         servicioProducto.mostrarProductos();
     }
 }

@@ -3,12 +3,12 @@ package teslatech;
 public class DetalleVenta {
     private Producto producto;
     private int cantidad;
-    private double subTotal;
+    private double subtotal;
 
     public DetalleVenta(Producto producto, int cantidad) {
         this.producto = producto;
         this.cantidad = cantidad;
-        this.subTotal = producto.getPrecio() * cantidad;
+        this.subtotal = producto.getPrecio() * cantidad;
     }
 
     public Producto getProducto() {
@@ -27,15 +27,16 @@ public class DetalleVenta {
         this.cantidad = cantidad;
     }
 
-    public double getSubTotal() {
-        return subTotal;
+    public double getSubtotal() {
+        return subtotal;
     }
 
-    public void setSubTotal(double subTotal) {
-        this.subTotal = subTotal;
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
     }
 
+    @Override
     public String toString() {
-        return "Detalle de Venta { Producto = '" + producto.getNombre() + "', Cantidad = " + cantidad + ", Subtotal = $" + subTotal + " }";
+        return "DetalleVenta{producto=" + producto.getNombre() + ", cantidad=" + cantidad + ", subtotal=" + subtotal + '}';
     }
 }

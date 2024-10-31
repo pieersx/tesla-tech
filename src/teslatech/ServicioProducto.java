@@ -1,23 +1,18 @@
 package teslatech;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ServicioProducto {
-    private Producto[] productos = new Producto[100];
-    private int indiceProductos = 0;
+    private List<Producto> productos = new ArrayList<>();
 
     public void agregarProducto(Producto producto) {
-        if (indiceProductos <= productos.length) {
-            productos[indiceProductos] = producto;
-            indiceProductos++;
-        } else {
-
-        }
+        productos.add(producto);
     }
 
-    public Producto buscaProducto(int id) {
+    public Producto buscarProducto(int id) {
         for (Producto p : productos) {
-            if (p.getId() == id) {
-                return p;
-            }
+            if (p.getId() == id) return p;
         }
         return null;
     }

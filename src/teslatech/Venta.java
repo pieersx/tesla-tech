@@ -1,44 +1,33 @@
 package teslatech;
 
+import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Venta {
     private int id;
-    private int indiceDetalles;
     private Cliente cliente;
-    private DetalleVenta[] detalles;
-
+    private Date fecha;
+    private List<DetalleVenta> detalles;
     private double total;
 
     public Venta(int id, Cliente cliente) {
         this.id = id;
         this.cliente = cliente;
-        this.detalles = new DetalleVenta[100];
-        this.indiceDetalles = 0;
+        this.fecha = new Date();
+        this.detalles = new ArrayList<>();
         this.total = 0.0;
     }
 
-    public double getTotal() {
-        return total;
-    }
-
     public void agregarDetalle(DetalleVenta detalle) {
-        if (indiceDetalles < detalles.length) {
-            detalles[indiceDetalles] = detalle;
-            indiceDetalles++;
-
-            total += detalle.getSubTotal();
-        } else {
-            System.out.println("No se pueden agregar más detalles, el arreglo está lleno.");
-        }
+        detalles.add(detalle);
+        total += detalle.getSubtotal();
     }
 
-    public void mostrarVenta() {
-        System.out.println("ID = " + id);
-        System.out.println("Cliente = " + cliente);
-        System.out.println("Total = $" + total);
-        System.out.println("Detalles = ");
+    public double getTotal() { return total; }
 
-        for (int i = 0; i < indiceDetalles; i++) {
-            System.out.println("\t" + detalles[i]);
-        }
+    @Override
+    public String toString() {
+        return "Venta{id=" + id + ", cliente=" + cliente + ", fecha=" + fecha + ", total=" + total + ", detalles=" + detalles + '}';
     }
 }
