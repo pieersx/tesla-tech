@@ -1,4 +1,4 @@
-package teslatech;
+package teslatech.modelos;
 
 public class DetalleVenta {
     private Producto producto;

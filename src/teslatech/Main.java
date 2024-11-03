@@ -1,7 +1,9 @@
 package teslatech;
 
-import java.util.ArrayList;
-import java.util.List;
+import teslatech.servicios.*;
+import teslatech.modelos.*;
+
+import java.sql.Date;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,16 +15,16 @@ public class Main {
         // Crear productos y clientes
         Producto p1 = new Producto(1, "Laptop", 1200.0, 10);
         Producto p2 = new Producto(2, "Mouse", 25.0, 50);
-        Cliente c1 = new Cliente(1, "Juan Pérez", "juan@example.com");
+        Cliente c1 = new Cliente("Juan Pérez", "12345678", "Av. Las Palmas", "987654321",  1, new Date(System.currentTimeMillis()));
 
         servicioProducto.agregarProducto(p1);
         servicioProducto.agregarProducto(p2);
         servicioCliente.agregarCliente(c1);
 
         // Crear detalle de venta y realizar venta
-        List<DetalleVenta> detalles = new ArrayList<>();
-        detalles.add(new DetalleVenta(p1, 1));
-        detalles.add(new DetalleVenta(p2, 2));
+        DetalleVenta[] detalles = new DetalleVenta[4];
+        detalles[0] = new DetalleVenta(p1, 1);
+        detalles[1] = new DetalleVenta(p2, 2);
 
         servicioVenta.realizarVenta(c1, detalles);
 
