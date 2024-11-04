@@ -1,17 +1,18 @@
 package teslatech.servicios;
 
+import teslatech.interfaces.Operaciones;
 import teslatech.modelos.Producto;
 
-public class ServicioProducto {
+public class ServicioProducto implements Operaciones<Producto> {
     private Producto[] productos;
     private int index;
 
     public ServicioProducto() {
-        productos = new Producto[100];
+        productos = new Producto[MAX];
         this.index = 0;
     }
 
-    public void agregarProducto(Producto producto) {
+    public void agregar(Producto producto) {
         if (index < productos.length) {
             productos[index] = producto;
             index++;
@@ -20,7 +21,7 @@ public class ServicioProducto {
         }
     }
 
-    public Producto buscarProducto(int id) {
+    public Producto buscarPorId(int id) {
         for (Producto p : productos) {
             if (p.getId() == id) return p;
         }

@@ -17,9 +17,9 @@ public class Main {
         Producto p2 = new Producto(2, "Mouse", 25.0, 50);
         Cliente c1 = new Cliente("Juan Pérez", "12345678", "Av. Las Palmas", "987654321",  1, new Date(System.currentTimeMillis()));
 
-        servicioProducto.agregarProducto(p1);
-        servicioProducto.agregarProducto(p2);
-        servicioCliente.agregarCliente(c1);
+        servicioProducto.agregar(p1);
+        servicioProducto.agregar(p2);
+        servicioCliente.agregar(c1);
 
         // Crear detalle de venta y realizar venta
         DetalleVenta[] detalles = new DetalleVenta[4];
