@@ -39,7 +39,6 @@ import java.util.Date;
 
 public class LoginController implements Initializable {
 
-
     @FXML
     private Hyperlink si_forgotPass;
 
@@ -87,7 +86,12 @@ public class LoginController implements Initializable {
     private PreparedStatement prepare;
     private ResultSet result;
 
-    private String[] questionList = {"¿Cuál es tu color favorito?", "¿Cuál es tu comida favorita?", "¿Cuál es tu fecha de nacimiento?"};
+    private String[] questionList = {
+        "¿Cuál es tu color favorito?",
+        "¿Cuál es tu comida favorita?",
+        "¿Cuál es tu fecha de nacimiento?"
+    };
+
     private Alert alert;
 
     public void switchForm(ActionEvent event) {
@@ -272,14 +276,11 @@ public class LoginController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
     }
-
 }
