@@ -12,7 +12,7 @@ Sigue estos pasos para configurar y ejecutar el proyecto en tu máquina local.
 
 ### Ejecute el proyecto con:
 
-```bash
+```console
 git clone https://github.com/pieersx/tesla-tech.git
 cd tesla-tech
 
@@ -24,3 +24,4 @@ gradlew.bat run
 
 # de lo contrario con gradlew en sistemas POSIX (Linux o macOS)
 ./gradlew run
+```
