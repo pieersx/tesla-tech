@@ -19,8 +19,8 @@ cd tesla-tech
 # con gradle instalado en su sistema
 gradle run
 
-# si no tienes gradlew instalado en sistemas Windows
+# de lo contrario con gradlew en sistemas Windows
 gradlew.bat run
 
-# si no tienes gradlew instalado en sistemas POSIX (Linux o macOS)
+# de lo contrario con gradlew en sistemas POSIX (Linux o macOS)
 ./gradlew run
