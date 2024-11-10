@@ -15,7 +15,7 @@ public class App extends Application {
         Scene scene = new Scene(root);
 
         stage.setTitle("Tesla Tech");
-        stage.setMaxWidth(840);
+        stage.setMaxWidth(800);
         stage.setMaxHeight(640);
         stage.setScene(scene);
         stage.show();

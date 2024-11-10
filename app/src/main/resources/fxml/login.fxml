@@ -34,7 +34,7 @@
                      <font>
                         <Font size="14.0" />
                      </font></Button>
-                  <Hyperlink fx:id="si_forgotPass" layoutX="65.0" layoutY="321.0" text="¿Has Olvidado tu Contraseña?" />
+                  <Hyperlink fx:id="si_forgotPass" layoutX="65.0" layoutY="321.0" onAction="#switchForgotPass" text="¿Has Olvidado tu Contraseña?" />
                </children></AnchorPane>
             <AnchorPane fx:id="su_signupForm" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -66,7 +66,44 @@
                   </TextField>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="side_form" prefHeight="600.0" prefWidth="400.0" styleClass="gradient" stylesheets="@../styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="fp_questionForm" layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" visible="false">
+               <children>
+                  <Label layoutX="38.0" layoutY="112.0" styleClass="head-label" stylesheets="@../styles/login.css" text="Contraseña Olvidada" textFill="#286155">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="fp_proceedBtn" layoutX="65.0" layoutY="355.0" mnemonicParsing="false" onAction="#proceedBtn" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Acceder">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <ComboBox fx:id="fp_question" layoutX="66.0" layoutY="230.0" prefHeight="40.0" prefWidth="270.0" promptText="Preguntas" styleClass="textfield" stylesheets="@../styles/login.css" />
+                  <TextField fx:id="fp_answer" layoutX="66.0" layoutY="284.0" prefHeight="40.0" prefWidth="270.0" promptText="Respuesta" styleClass="textfield" stylesheets="@../styles/login.css" />
+                  <Button fx:id="fp_back" layoutX="154.0" layoutY="471.0" mnemonicParsing="false" onAction="#backToLoginForm" prefHeight="40.0" prefWidth="95.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Volver" />
+                  <FontAwesomeIcon fill="WHITE" glyphName="ANGLE_LEFT" layoutX="167.0" layoutY="501.0" size="2.5em" text="" />
+                  <TextField fx:id="fp_username" layoutX="66.0" layoutY="174.0" prefHeight="40.0" prefWidth="270.0" promptText="Nombre de Usuario" styleClass="textfield" stylesheets="@../styles/login.css" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="np_newPassForm" layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" visible="false">
+               <children>
+                  <Label layoutX="38.0" layoutY="112.0" styleClass="head-label" stylesheets="@../styles/login.css" text="Contraseña Olvidada" textFill="#286155">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="np_changePassBtn" layoutX="65.0" layoutY="338.0" mnemonicParsing="false" onAction="#changePassBtn" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Cambiar Contraseña">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="np_back" layoutX="153.0" layoutY="454.0" mnemonicParsing="false" onAction="#backToQuestionForm" prefHeight="40.0" prefWidth="95.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Volver" />
+                  <FontAwesomeIcon fill="WHITE" glyphName="ANGLE_LEFT" layoutX="165.0" layoutY="484.0" size="2.5em" text="" />
+                  <PasswordField fx:id="np_newPassword" layoutX="65.0" layoutY="200.0" prefHeight="40.0" prefWidth="270.0" promptText="Nueva Contraseña" styleClass="textfield" stylesheets="@../styles/login.css" />
+                  <PasswordField fx:id="np_confirmPassword" layoutX="65.0" layoutY="267.0" prefHeight="40.0" prefWidth="270.0" promptText="Confirmar Contraseña" styleClass="textfield" stylesheets="@../styles/login.css" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="side_form" prefHeight="600.0" prefWidth="400.0" styleClass="gradient" stylesheets="@../styles/login.css">
                <children>
                   <Label layoutX="104.0" layoutY="434.0" text="Crear una Cuenta" textFill="WHITE">
                      <font>

@@ -40,6 +40,39 @@ import java.util.Date;
 public class LoginController implements Initializable {
 
     @FXML
+    private TextField fp_answer;
+
+    @FXML
+    private Button fp_back;
+
+    @FXML
+    private Button fp_proceedBtn;
+
+    @FXML
+    private ComboBox<?> fp_question;
+
+    @FXML
+    private AnchorPane fp_questionForm;
+
+    @FXML
+    private TextField fp_username;
+
+    @FXML
+    private Button np_back;
+
+    @FXML
+    private Button np_changePassBtn;
+
+    @FXML
+    private PasswordField np_confirmPassword;
+
+    @FXML
+    private AnchorPane np_newPassForm;
+
+    @FXML
+    private PasswordField np_newPassword;
+
+    @FXML
     private Hyperlink si_forgotPass;
 
     @FXML
@@ -81,7 +114,6 @@ public class LoginController implements Initializable {
     @FXML
     private TextField su_username;
 
-
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet result;
@@ -94,53 +126,63 @@ public class LoginController implements Initializable {
 
     private Alert alert;
 
-    public void switchForm(ActionEvent event) {
-        TranslateTransition slider = new TranslateTransition();
+    public void loginBtn() {
+        if (si_username.getText().isEmpty() || si_password.getText().isEmpty()) {
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Nombre de usuario/contraseña incorrectos");
+            alert.showAndWait();
+        } else {
 
-        if (event.getSource() == side_CreateBtn) {
-            slider.setNode(side_form);
-            slider.setToX(400);
-            slider.setDuration(Duration.seconds(.5));
+            String selctData = "SELECT username, password FROM users WHERE username = ? and password = ?";
+            connect = DBConnection.connectDB();
 
-            slider.setOnFinished((ActionEvent e) -> {
-                side_alreadyHave.setVisible(true);
-                side_CreateBtn.setVisible(false);
+            try {
+                prepare = connect.prepareStatement(selctData);
+                prepare.setString(1, si_username.getText());
+                prepare.setString(2, si_password.getText());
 
-                // fp_questionForm.setVisible(false);
-                si_loginForm.setVisible(true);
-                // np_newPassForm.setVisible(false);
+                result = prepare.executeQuery();
 
-                regLquestionList();
-            });
+                // IF SUCCESSFULLY LOGIN, THEN PROCEED TO ANOTHER FORM WHICH IS OUR MAIN FORM
+                if (result.next()) {
+                    // TO GET THE USERNAME THAT USER USED
+                    DB.username = si_username.getText();
 
-            slider.play();
-        } else if (event.getSource() == side_alreadyHave) {
-            slider.setNode(side_form);
-            slider.setToX(0);
-            slider.setDuration(Duration.seconds(.5));
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("¡Inicio de sesión exitosamente!");
+                    alert.showAndWait();
 
-            slider.setOnFinished((ActionEvent e) -> {
-                side_alreadyHave.setVisible(false);
-                side_CreateBtn.setVisible(true);
+                    // LINK YOUR MAIN FORM
+                    Parent root = FXMLLoader.load(getClass().getResource("mainForm.fxml"));
 
-                // fp_questionForm.setVisible(false);
-                si_loginForm.setVisible(true);
-                // np_newPassForm.setVisible(false);
-            });
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(root);
 
-            slider.play();
+                    stage.setTitle("Tesla Tech");
+                    stage.setMinWidth(1100);
+                    stage.setMinHeight(600);
+
+                    stage.setScene(scene);
+                    stage.show();
+
+                    si_loginBtn.getScene().getWindow().hide();
+
+                } else {
+                    // IF NOT, THEN THE ERROR MESSAGE WILL APPEAR
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Nombre de usuario/contraseña incorrectos");
+                    alert.showAndWait();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    }
-
-    public void regLquestionList() {
-        List<String> listQ = new ArrayList<>();
-
-        for (String data : questionList) {
-            listQ.add(data);
-        }
-
-        ObservableList listData = FXCollections.observableArrayList(listQ);
-        su_question.setItems(listData);
     }
 
     public void regBtn() {
@@ -220,62 +262,190 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void loginBtn() {
-        if (si_username.getText().isEmpty() || si_password.getText().isEmpty()) {
+    public void regLquestionList() {
+        List<String> listQ = new ArrayList<>();
+
+        for (String data : questionList) {
+            listQ.add(data);
+        }
+
+        ObservableList listData = FXCollections.observableArrayList(listQ);
+        su_question.setItems(listData);
+    }
+
+    public void switchForgotPass() {
+        fp_questionForm.setVisible(true);
+        si_loginForm.setVisible(false);
+
+        forgotPassQuestionList();
+    }
+
+    public void proceedBtn() {
+
+        if (fp_username.getText().isEmpty() || fp_question.getSelectionModel().getSelectedItem() == null || fp_answer.getText().isEmpty()) {
+
             alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
-            alert.setContentText("Nombre de usuario/contraseña incorrectos");
+            alert.setContentText("Please fill all blank fields");
             alert.showAndWait();
+
         } else {
 
-            String selctData = "SELECT username, password FROM users WHERE username = ? and password = ?";
+            String selectData = "SELECT username, question, answer FROM users WHERE username = ? AND question = ? AND answer = ?";
             connect = DBConnection.connectDB();
 
             try {
-                prepare = connect.prepareStatement(selctData);
-                prepare.setString(1, si_username.getText());
-                prepare.setString(2, si_password.getText());
+
+                prepare = connect.prepareStatement(selectData);
+                prepare.setString(1, fp_username.getText());
+                prepare.setString(2, (String) fp_question.getSelectionModel().getSelectedItem());
+                prepare.setString(3, fp_answer.getText());
 
                 result = prepare.executeQuery();
 
-                // IF SUCCESSFULLY LOGIN, THEN PROCEED TO ANOTHER FORM WHICH IS OUR MAIN FORM
                 if (result.next()) {
-                    // TO GET THE USERNAME THAT USER USED
-                    DB.username = si_username.getText();
+                    np_newPassForm.setVisible(true);
+                    fp_questionForm.setVisible(false);
+                } else {
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Incorrect Information");
+                    alert.showAndWait();
+                }
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+        }
+    }
+
+    public void changePassBtn() {
+
+        if (np_newPassword.getText().isEmpty() || np_confirmPassword.getText().isEmpty()) {
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all blank fields");
+            alert.showAndWait();
+        } else {
+
+            if (np_newPassword.getText().equals(np_confirmPassword.getText())) {
+                String getDate = "SELECT date FROM users WHERE username = '"
+                        + fp_username.getText() + "'";
+
+                connect = DBConnection.connectDB();
+
+                try {
+
+                    prepare = connect.prepareStatement(getDate);
+                    result = prepare.executeQuery();
+
+                    String date = "";
+                    if (result.next()) {
+                        date = result.getString("date");
+                    }
+
+                    String updatePass = "UPDATE users SET password = '"
+                            + np_newPassword.getText() + "', question = '"
+                            + fp_question.getSelectionModel().getSelectedItem() + "', answer = '"
+                            + fp_answer.getText() + "', date = '"
+                            + date + "' WHERE username = '"
+                            + fp_username.getText() + "'";
+
+                    prepare = connect.prepareStatement(updatePass);
+                    prepare.executeUpdate();
 
                     alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("¡Inicio de sesión exitosamente!");
+                    alert.setContentText("Successfully changed Password!");
                     alert.showAndWait();
 
-                    // LINK YOUR MAIN FORM
-                    Parent root = FXMLLoader.load(getClass().getResource("mainForm.fxml"));
+                    si_loginForm.setVisible(true);
+                    np_newPassForm.setVisible(false);
 
-                    Stage stage = new Stage();
-                    Scene scene = new Scene(root);
+                    // TO CLEAR FIELDS
+                    np_confirmPassword.setText("");
+                    np_newPassword.setText("");
+                    fp_question.getSelectionModel().clearSelection();
+                    fp_answer.setText("");
+                    fp_username.setText("");
 
-                    stage.setTitle("Tesla Tech");
-                    stage.setMinWidth(1100);
-                    stage.setMinHeight(600);
-
-                    stage.setScene(scene);
-                    stage.show();
-
-                    si_loginBtn.getScene().getWindow().hide();
-
-                } else {
-                    // IF NOT, THEN THE ERROR MESSAGE WILL APPEAR
-                    alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Error Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Nombre de usuario/contraseña incorrectos");
-                    alert.showAndWait();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Not match");
+                alert.showAndWait();
             }
+        }
+    }
+
+    public void forgotPassQuestionList() {
+
+        List<String> listQ = new ArrayList<>();
+
+        for (String data : questionList) {
+            listQ.add(data);
+        }
+
+        ObservableList listData = FXCollections.observableArrayList(listQ);
+        fp_question.setItems(listData);
+    }
+
+    public void backToLoginForm(){
+        si_loginForm.setVisible(true);
+        fp_questionForm.setVisible(false);
+    }
+
+    public void backToQuestionForm(){
+        fp_questionForm.setVisible(true);
+        np_newPassForm.setVisible(false);
+    }
+
+    public void switchForm(ActionEvent event) {
+
+        TranslateTransition slider = new TranslateTransition();
+
+        if (event.getSource() == side_CreateBtn) {
+            slider.setNode(side_form);
+            slider.setToX(400);
+            slider.setDuration(Duration.seconds(.5));
+
+            slider.setOnFinished((ActionEvent e) -> {
+                side_alreadyHave.setVisible(true);
+                side_CreateBtn.setVisible(false);
+
+                fp_questionForm.setVisible(false);
+                si_loginForm.setVisible(true);
+                np_newPassForm.setVisible(false);
+
+                regLquestionList();
+            });
+
+            slider.play();
+        } else if (event.getSource() == side_alreadyHave) {
+            slider.setNode(side_form);
+            slider.setToX(0);
+            slider.setDuration(Duration.seconds(.5));
+
+            slider.setOnFinished((ActionEvent e) -> {
+                side_alreadyHave.setVisible(false);
+                side_CreateBtn.setVisible(true);
+
+                fp_questionForm.setVisible(false);
+                si_loginForm.setVisible(true);
+                np_newPassForm.setVisible(false);
+            });
+
+            slider.play();
         }
     }
 
