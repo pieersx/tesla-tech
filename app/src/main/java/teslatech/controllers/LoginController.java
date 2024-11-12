@@ -1,7 +1,11 @@
 package teslatech.controllers;
 
 import teslatech.utils.Alerts;
+import teslatech.Datos;
 import teslatech.models.UserModel;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
@@ -9,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,11 +21,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class LoginController {
+public class LoginController implements Initializable {
 
     @FXML
     private TextField fp_answer;
@@ -114,11 +120,14 @@ public class LoginController {
 
         if (si_username.getText().isEmpty() || si_password.getText().isEmpty()) {
             Alerts.showError("Nombre de usuario/contraseña incorrectos");
+
             return;
         }
 
         if (UserModel.isValidUser(username, password)) {
             Alerts.showInfo("¡Inicio de sesión exitosamente!");
+
+            Datos.username = username;
             openMainForm();
         } else {
             Alerts.showError("Nombre de usuario/contraseña incorrectos");
@@ -128,9 +137,13 @@ public class LoginController {
     // Método para abrir la vista principal
     private void openMainForm() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/mainForm.fxml"));
+            System.out.println(getClass().getResource("/views/main.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/main.fxml"));
             Stage stage = new Stage();
+            Image icon = new Image(getClass().getResourceAsStream("/logo/tesla-tech.png"));
+
             stage.setTitle("Tesla Tech");
+            stage.getIcons().add(icon);
             stage.setScene(new Scene(root));
             stage.show();
             si_loginBtn.getScene().getWindow().hide();
@@ -243,16 +256,10 @@ public class LoginController {
             si_loginForm.setVisible(true);
             np_newPassForm.setVisible(false);
 
-            // TO CLEAR FIELDS
-            np_newPassword.setText("");
-            np_confirmPassword.setText("");
-            fp_username.setText("");
-            fp_answer.setText("");
-            fp_question.getSelectionModel().clearSelection();
+            clearSignupForm();
         } else {
             Alerts.showError("Error al cambiar la contraseña");
         }
-
     }
 
     /* ==============================
@@ -312,4 +319,12 @@ public class LoginController {
             slider.play();
         }
     }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+    }
+
+    // @Override
+    // public void initialize(URL location, ResourceBundle resources) {
+    // }
 }

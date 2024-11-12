@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DBConnection {
-    public static final String URL = "jdbc:mysql://localhost:3306/tesla_tech_db";
-    public static final String USER = "pieers";
-    public static final String PASSWORD = "";
+    public static final String URL = "jdbc:mysql://autorack.proxy.rlwy.net:54386/tesla_tech_db";
+    public static final String USER = "root";
+    public static final String PASSWORD = "boSfRwFPvOHlElpHSFRvOtiWhFJIEsmG";
 
     public static Connection connectDB() {
         Connection connection = null;
