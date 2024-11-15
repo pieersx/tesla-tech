@@ -37,7 +37,7 @@ CREATE TABLE customer(
     quantity INT NOT NULL,
     price DOUBLE NOT NULL,
     date DATE NOT NULL,
-    image VARCHAR(255),
+    image VARCHAR(500),
     em_username VARCHAR(255) NOT NULL
 );
 

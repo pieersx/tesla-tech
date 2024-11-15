@@ -1,7 +1,7 @@
 package teslatech.services;
 
 import teslatech.Producto;
-import teslatech.db.DBConnection;
+import teslatech.db.ConexionDB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,7 +17,7 @@ public class ServicioProducto {
         String consulta = "SELECT * FROM product";
 
         try {
-            Connection conexion = DBConnection.connectDB();
+            Connection conexion = ConexionDB.conectarDB();
             PreparedStatement prepare = conexion.prepareStatement(consulta);
             ResultSet result = prepare.executeQuery();
 
@@ -44,7 +44,7 @@ public class ServicioProducto {
     public static void agregarProducto(Producto product) {
         String consulta = "INSERT INTO product (prod_id, prod_name, type, stock, price, status, image, date) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         try  {
-            Connection conexion = DBConnection.connectDB();
+            Connection conexion = ConexionDB.conectarDB();
             PreparedStatement prepare = conexion.prepareStatement(consulta);
             prepare.setString(1, product.getProductId());
             prepare.setString(2, product.getProductName());
@@ -63,7 +63,7 @@ public class ServicioProducto {
     public static boolean existeProducto(String productId) {
         String query = "SELECT prod_id FROM product WHERE prod_id = '" + productId + "'";
         try {
-            Connection conexion = DBConnection.connectDB();
+            Connection conexion = ConexionDB.conectarDB();
             Statement statement = conexion.createStatement();
             ResultSet result = statement.executeQuery(query);
 
@@ -76,7 +76,7 @@ public class ServicioProducto {
 
     public void updateProduct(Producto product) {
         String consulta = "UPDATE product SET prod_id = ?, prod_name = ?, type = ?, stock = ?, price = ?, status = ?, image = ?, date = ? WHERE id = ?";
-        try (Connection conexion = DBConnection.connectDB();
+        try (Connection conexion = ConexionDB.conectarDB();
              PreparedStatement prepare = conexion.prepareStatement(consulta)) {
 
             prepare.setString(1, product.getProductId());
@@ -98,7 +98,7 @@ public class ServicioProducto {
 
     public void deleteProduct(int productId) {
         String consulta = "DELETE FROM product WHERE id = ?";
-        try (Connection conexion = DBConnection.connectDB();
+        try (Connection conexion = ConexionDB.conectarDB();
              PreparedStatement prepare = conexion.prepareStatement(consulta)) {
 
             prepare.setInt(1, productId);

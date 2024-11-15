@@ -21,7 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import teslatech.Datos;
 import teslatech.Producto;
-import teslatech.db.DBConnection;
+import teslatech.db.ConexionDB;
 
 public class TarjetaProductoController implements Initializable {
 
@@ -62,7 +62,7 @@ public class TarjetaProductoController implements Initializable {
     private PreparedStatement prepare;
     private ResultSet result;
 
-    private Alert alert;
+    private Alert alerta;
 
     public void setData(Producto prodData) {
         this.prodData = prodData;
@@ -99,7 +99,7 @@ public class TarjetaProductoController implements Initializable {
         String checkAvailable = "SELECT status FROM product WHERE prod_id = '"
                 + prodID + "'";
 
-        connect = DBConnection.connectDB();
+        connect = ConexionDB.conectarDB();
 
         try {
             int checkStck = 0;
@@ -136,19 +136,19 @@ public class TarjetaProductoController implements Initializable {
             }
 
             if (!check.equals("Disponible") || qty == 0) {
-                alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Something Wrong :3");
-                alert.showAndWait();
+                alerta = new Alert(AlertType.ERROR);
+                alerta.setTitle("Error Message");
+                alerta.setHeaderText(null);
+                alerta.setContentText("Something Wrong :3");
+                alerta.showAndWait();
             } else {
 
                 if (checkStck < qty) {
-                    alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Error Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Invalid. This product is Out of stock");
-                    alert.showAndWait();
+                    alerta = new Alert(AlertType.ERROR);
+                    alerta.setTitle("Error Message");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("Invalid. This product is Out of stock");
+                    alerta.showAndWait();
                 } else {
                     prod_image = prod_image.replace("\\", "\\\\");
 
@@ -191,11 +191,11 @@ public class TarjetaProductoController implements Initializable {
                     prepare = connect.prepareStatement(updateStock);
                     prepare.executeUpdate();
 
-                    alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Added!");
-                    alert.showAndWait();
+                    alerta = new Alert(AlertType.INFORMATION);
+                    alerta.setTitle("Information Message");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("Successfully Added!");
+                    alerta.showAndWait();
 
                     mainController.menuGetTotal();
                 }

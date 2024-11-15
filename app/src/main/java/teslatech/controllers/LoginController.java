@@ -1,6 +1,6 @@
 package teslatech.controllers;
 
-import teslatech.utils.Alerts;
+import teslatech.utils.Alertas;
 import teslatech.Datos;
 import teslatech.models.UserModel;
 
@@ -119,18 +119,18 @@ public class LoginController implements Initializable {
         String password = si_password.getText();
 
         if (si_username.getText().isEmpty() || si_password.getText().isEmpty()) {
-            Alerts.showError("Nombre de usuario/contraseña incorrectos");
+            Alertas.mostrarError("Nombre de usuario/contraseña incorrectos");
 
             return;
         }
 
         if (UserModel.isValidUser(username, password)) {
-            Alerts.showInfo("¡Inicio de sesión exitosamente!");
+            Alertas.mostrarInformacion("¡Inicio de sesión exitosamente!");
 
             Datos.username = username;
             openMainForm();
         } else {
-            Alerts.showError("Nombre de usuario/contraseña incorrectos");
+            Alertas.mostrarError("Nombre de usuario/contraseña incorrectos");
         }
     }
 
@@ -164,17 +164,17 @@ public class LoginController implements Initializable {
         String answer = su_answer.getText();
 
         if (su_username.getText().isEmpty() || su_password.getText().isEmpty() || su_question.getSelectionModel().getSelectedItem() == null || su_answer.getText().isEmpty()) {
-            Alerts.showError("Por favor, rellene todos los campos en blanco");
+            Alertas.mostrarError("Por favor, rellene todos los campos en blanco");
 
             return;
         }
 
         if (UserModel.isUsernameTaken(username)) {
-            Alerts.showError("El nombre de usuario ya está en uso");
+            Alertas.mostrarError("El nombre de usuario ya está en uso");
         } else if (password.length() < 8) {
-            Alerts.showError("La contraseña debe tener al menos 8 caracteres");
+            Alertas.mostrarError("La contraseña debe tener al menos 8 caracteres");
         } else if (UserModel.registerUser(username, password, question, answer)) {
-            Alerts.showInfo("¡Cuenta registrada con éxito!");
+            Alertas.mostrarInformacion("¡Cuenta registrada con éxito!");
             clearSignupForm();
         }
     }
@@ -216,17 +216,17 @@ public class LoginController implements Initializable {
         String answer = fp_answer.getText();
 
         if (fp_username.getText().isEmpty() || fp_question.getSelectionModel().getSelectedItem() == null || fp_answer.getText().isEmpty()) {
-            Alerts.showError("Por favor, rellene todos los campos en blanco");
+            Alertas.mostrarError("Por favor, rellene todos los campos en blanco");
 
             return;
         }
 
         if (UserModel.isValidRecoveryData(username, question, answer)) {
-            Alerts.showInfo("Usuario encontrado");
+            Alertas.mostrarInformacion("Usuario encontrado");
             np_newPassForm.setVisible(true);
             fp_questionForm.setVisible(false);
         } else {
-            Alerts.showError("Usuario no encontrado");
+            Alertas.mostrarError("Usuario no encontrado");
         }
     }
 
@@ -239,26 +239,26 @@ public class LoginController implements Initializable {
         String answer = fp_answer.getText();
 
         if (np_newPassword.getText().isEmpty() || np_confirmPassword.getText().isEmpty()) {
-            Alerts.showError("Por favor, rellene todos los campos en blanco");
+            Alertas.mostrarError("Por favor, rellene todos los campos en blanco");
 
             return;
         }
 
         if (!newPassword.equals(confirmPassword)) {
-            Alerts.showError("Las contraseñas no coinciden");
+            Alertas.mostrarError("Las contraseñas no coinciden");
 
             return;
         }
 
         if (UserModel.updateUserPassword(username, newPassword, queston, answer)) {
-            Alerts.showInfo("¡Contraseña cambiada exitosamente!");
+            Alertas.mostrarInformacion("¡Contraseña cambiada exitosamente!");
 
             si_loginForm.setVisible(true);
             np_newPassForm.setVisible(false);
 
             clearSignupForm();
         } else {
-            Alerts.showError("Error al cambiar la contraseña");
+            Alertas.mostrarError("Error al cambiar la contraseña");
         }
     }
 
