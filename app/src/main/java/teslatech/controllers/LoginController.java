@@ -165,7 +165,6 @@ public class LoginController implements Initializable {
 
         if (txtSignupUsername.getText().isEmpty() || txtSignupPassword.getText().isEmpty() || cmbSignupQuestion.getSelectionModel().getSelectedItem() == null || txtSignupAnswer.getText().isEmpty()) {
             Alertas.mostrarError("Por favor, rellene todos los campos en blanco");
-
             return;
         }
 

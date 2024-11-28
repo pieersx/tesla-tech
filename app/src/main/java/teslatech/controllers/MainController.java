@@ -945,7 +945,7 @@ public class MainController implements Initializable {
                     Alert alerta = new Alert(AlertType.ERROR);
                     alerta.setTitle("Error Messaged");
                     alerta.setHeaderText(null);
-                    alerta.setContentText("Algo falla");
+                    alerta.setContentText("Selecciona su pedido");
                     alerta.showAndWait();
                 } else {
                     Alert alerta = new Alert(AlertType.CONFIRMATION);

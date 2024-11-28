@@ -9,6 +9,7 @@ import java.sql.SQLException;
 public class ModeloUsuario {
     // Método para validar si un usuario y su contraseña son correctos
     public static boolean esUsuarioValido(String usuario, String contrasena) {
+        // Consulta SQL para verificar las credenciales del usuario
         String consultaSQL  = "SELECT usuario, contrasena FROM usuario WHERE usuario = ? and contrasena = ?";
 
         try {
@@ -16,9 +17,9 @@ public class ModeloUsuario {
             PreparedStatement consultaPreparada = conexionDB.prepareStatement(consultaSQL);
             consultaPreparada.setString(1, usuario);
             consultaPreparada.setString(2, contrasena);
-            ResultSet resultadoConsulta  = consultaPreparada.executeQuery();
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
 
-            return resultadoConsulta .next(); // Devuelve true si se encuentra el usuario
+            return resultadoConsulta.next(); // Devuelve true si se encuentra el usuario
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -28,15 +29,16 @@ public class ModeloUsuario {
 
     // Método para verificar si un nombre de usuario ya está registrado
     public static boolean verificarNombreUsuarioExistente(String usuario) {
+        // Consulta para verificar si el usuario ya está registrado
         String consultaSQL  = "SELECT usuario FROM usuario WHERE usuario = ?";
 
         try {
             Connection conexionDB = ConexionDB.conectarDB();
-            PreparedStatement consultaPreparada = conexionDB.prepareStatement(consultaSQL );
+            PreparedStatement consultaPreparada = conexionDB.prepareStatement(consultaSQL);
             consultaPreparada.setString(1, usuario);
-            ResultSet resultadoConsulta  = consultaPreparada.executeQuery();
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
 
-            return resultadoConsulta .next(); // Devuelve true si se encuentra el usuario
+            return resultadoConsulta.next(); // Devuelve true si se encuentra el usuario
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -46,6 +48,7 @@ public class ModeloUsuario {
 
     // Método para registrar un nuevo usuario
     public static boolean registrarNuevoUsuario(String usuario, String contrasena, String pregunta, String respuesta) {
+        // Consulta para insertar un usuario con sus datos y la fecha actual automáticamente.
         String consultaSQL  = "INSERT INTO usuario (usuario, contrasena, pregunta, respuesta, fecha) VALUES (?, ?, ?, ?, CURRENT_DATE)";
 
         try {
@@ -75,9 +78,9 @@ public class ModeloUsuario {
             consultaPreparada.setString(1, usuario);
             consultaPreparada.setString(2, pregunta);
             consultaPreparada.setString(3, respuesta);
-            ResultSet resultadoConsulta  = consultaPreparada.executeQuery();
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
 
-            return resultadoConsulta .next(); // Devuelve true si los datos son válidos
+            return resultadoConsulta.next(); // Devuelve true si los datos son válidos
         } catch (SQLException e) {
             e.printStackTrace();
 

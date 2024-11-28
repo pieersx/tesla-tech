@@ -131,7 +131,7 @@ public class TarjetaProductoController implements Initializable {
                 alerta = new Alert(AlertType.ERROR);
                 alerta.setTitle("Error Message");
                 alerta.setHeaderText(null);
-                alerta.setContentText("Algo va mal");
+                alerta.setContentText("No disponible");
                 alerta.showAndWait();
             } else {
 
