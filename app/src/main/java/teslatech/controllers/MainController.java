@@ -251,11 +251,12 @@ public class MainController implements Initializable {
         mostrarDatosClientes();
     }
 
+    // Método para calcular y mostrar los ingresos totales del día actual.
     public void mostrarIngresosTotalesDiarios() {
         Date fechaActual = new Date();
         java.sql.Date fechaSQL = new java.sql.Date(fechaActual.getTime());
 
-        // Consulta SQL para sumar los valores de la columna 'total' de la tabla 'recibos' para la fecha actual.
+        // Consulta SQL para sumar los valores de la columna 'total' de la tabla 'recibo' filtrando solo por la fecha actual
         String consulta = "SELECT SUM(total) FROM recibo WHERE fecha = ?";
         double totalIngresosDeHoy = 0;
 
@@ -276,7 +277,9 @@ public class MainController implements Initializable {
         }
     }
 
+    // Método para calcular y mostrar los ingresos totales acumulados.
     public void mostrarIngresosTotales() {
+        // Suma los valores de la columna 'total' en la tabla 'recibo'
         String consulta = "SELECT SUM(total) FROM recibo";
         float totalIngresos = 0;
 
@@ -295,7 +298,9 @@ public class MainController implements Initializable {
         }
     }
 
+    // Método para calcular y mostrar el número total de productos vendidos.
     public void mostrarNumeroDeProductosVendidos() {
+        // Cuenta el número total de registros en la columna 'cantidad' de la tabla 'cliente'.
         String consulta = "SELECT COUNT(cantidad) FROM cliente";
         int numeroProductosVendidos = 0;
 
@@ -314,10 +319,11 @@ public class MainController implements Initializable {
         }
     }
 
+    // Método para generar y mostrar un gráfico de ingresos diarios.
     public void mostrarGraficoDeIngresos() {
         dashboard_incomeChart.getData().clear();
 
-        // Consulta SQL que selecciona la fecha y la suma de los totales de 'recibo' agrupados por fecha.
+        // Selecciona la fecha y la suma de los ingresos totales ('total') en la tabla 'recibo' agrupados por fecha y ordenados cronológicamente.
         String consulta = "SELECT fecha, SUM(total) FROM recibo GROUP BY fecha ORDER BY TIMESTAMP(fecha)";
 
         try {
@@ -341,10 +347,11 @@ public class MainController implements Initializable {
         }
     }
 
+    // Método para generar y mostrar un gráfico de clientes diarios.
     public void mostrarGraficoDeClientes(){
         dashboard_CustomerChart.getData().clear();
 
-        // Consulta SQL que selecciona la fecha y cuenta los clientes en la tabla 'recibo' agrupados por fecha.
+        // Selecciona la fecha y cuenta el número de clientes ('id') en la tabla 'recibo' agrupados por fecha y ordenados cronológicamente.
         String sql = "SELECT fecha, COUNT(id) FROM recibo GROUP BY fecha ORDER BY TIMESTAMP(fecha)";
 
         try {
@@ -368,8 +375,11 @@ public class MainController implements Initializable {
         }
     }
 
+    // Método para obtener una lista de objetos `Cliente` a partir de los registros almacenados en la tabla `recibo`
     public ObservableList<Cliente> obtenerListaDeClientes() {
         ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
+
+        // Selecciona todos los registros de la tabla 'recibo'
         String consulta = "SELECT * FROM recibo";
 
         try {
@@ -396,6 +406,7 @@ public class MainController implements Initializable {
         return listaClientes;
     }
 
+    // Método para mostrar los datos de los clientes en la tabla de la interfaz
     public void mostrarDatosClientes() {
         ObservableList<Cliente> listaClientes = obtenerListaDeClientes();
         customers_col_customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
@@ -427,14 +438,18 @@ public class MainController implements Initializable {
         // }
     }
 
+    // Obtiene el id_cliente de la tabla cliente
+    private int clienteId;
+
+    // Método para obtener la lista de productos asociados con el pedido de un cliente específico.
     public ObservableList<Producto> obtenerOrdenDelMenu() {
         // Llamada al método obtenerIdCliente para asegurar que el ID del cliente esté definido
         obtenerIdCliente();
 
-        // Crear una lista observable para almacenar los productos de la orden
+        // Crear una lista observable para almacenar los productos asociados al cliente.
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
 
-        // Consulta SQL para obtener todos los productos del cliente según su ID
+        // Consulta para obtener todos los productos del cliente según su ID
         String consulta = "SELECT * FROM cliente WHERE id_cliente = " + clienteId;
 
         try {
@@ -467,12 +482,13 @@ public class MainController implements Initializable {
 
     private double totalPrecio;
 
+    // Calcula y muestra el total de la orden en la interfaz
     public void mostrarTotalDelMenu() {
         calcularTotalDelMenu();
         menu_total.setText("S/" + totalPrecio);
     }
 
-    // Muestra los datos de inventario en la tabla
+    // uestra los datos de los productos de la orden en una tabla
     public void mostrarDatosDeLaOrden() {
         ObservableList<Producto> listaProductos = obtenerOrdenDelMenu();
         menu_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
@@ -481,13 +497,11 @@ public class MainController implements Initializable {
         menu_tableView.setItems(listaProductos);
     }
 
-    // Obtiene el ID máximo (último ID) de la tabla cliente
-    private int clienteId;
 
-    // Calcula el total de precios de los productos
+    // Realiza la suma de precios de los productos asociados al cliente.
     public void calcularTotalDelMenu() {
         obtenerIdCliente();
-
+        // consulta para sumar los precios de los productos asociados al cliente
         String consulta = "SELECT SUM(precio) FROM cliente WHERE id_cliente = " + clienteId;
 
         try {
@@ -504,6 +518,7 @@ public class MainController implements Initializable {
         }
     }
 
+    // Obtiene y define el identificador único del cliente actual
     public void obtenerIdCliente() {
         // Se define la consulta SQL para obtener el valor máximo del campo id_cliente en la tabla cliente
         String sql = "SELECT MAX(id_cliente) FROM cliente";
@@ -542,7 +557,9 @@ public class MainController implements Initializable {
         }
     }
 
+    // Obtiene todos los datos de la tabla `producto` desde la base de datos
     public ObservableList<Producto> obtenerDatosDelMenu() {
+        // consulta para recuperar todos los registros de la tabla `producto`
         String consulta = "SELECT * FROM producto";
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
 
@@ -571,8 +588,6 @@ public class MainController implements Initializable {
 
         return listaProductos;
     }
-
-    // Devuelve una lista observable de productos consultando todos los datos de la tabla produc
 
     // Muestra las tarjetas de productos en la interfaz
     public void mostrarTarjetasDelMenu() {
@@ -618,6 +633,7 @@ public class MainController implements Initializable {
 
     // Muestra el recuento de recibos (recibo)
     public void mostrarNumeroDeClientes() {
+        // consulta para contar el número de recibos registrados en la tabla recibo
         String consulta = "SELECT COUNT(id) FROM recibo";
         int numeroClientes = 0;
 

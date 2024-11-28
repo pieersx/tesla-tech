@@ -4,7 +4,7 @@ CREATE DATABASE tesla_tech_db;
 
 USE tesla_tech_db;
 
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS usuario;
 CREATE TABLE usuario(
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(255) NOT NULL UNIQUE,

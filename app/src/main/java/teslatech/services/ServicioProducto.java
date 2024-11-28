@@ -18,19 +18,19 @@ public class ServicioProducto {
         try {
             Connection conexionDB = ConexionDB.conectarDB();
             PreparedStatement consultaPreparada = conexionDB.prepareStatement(consulta);
-            ResultSet resultadoConsulta  = consultaPreparada.executeQuery();
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
 
-            while (resultadoConsulta .next()) {
+            while (resultadoConsulta.next()) {
                 Producto producto = new Producto(
-                    resultadoConsulta .getInt("id"),
-                    resultadoConsulta .getString("id_producto"),
-                    resultadoConsulta .getString("nombre_producto"),
-                    resultadoConsulta .getString("tipo"),
-                    resultadoConsulta .getInt("stock"),
-                    resultadoConsulta .getDouble("precio"),
-                    resultadoConsulta .getString("estado"),
-                    resultadoConsulta .getString("imagen"),
-                    resultadoConsulta .getDate("fecha")
+                    resultadoConsulta.getInt("id"),
+                    resultadoConsulta.getString("id_producto"),
+                    resultadoConsulta.getString("nombre_producto"),
+                    resultadoConsulta.getString("tipo"),
+                    resultadoConsulta.getInt("stock"),
+                    resultadoConsulta.getDouble("precio"),
+                    resultadoConsulta.getString("estado"),
+                    resultadoConsulta.getString("imagen"),
+                    resultadoConsulta.getDate("fecha")
                 );
 
                 listaProductos.add(producto);
@@ -69,9 +69,9 @@ public class ServicioProducto {
         try {
             Connection conexionDB = ConexionDB.conectarDB();
             Statement statement = conexionDB.createStatement();
-            ResultSet resultadoConsulta  = statement.executeQuery(consultaSQL );
+            ResultSet resultadoConsulta = statement.executeQuery(consultaSQL );
 
-            return resultadoConsulta .next();
+            return resultadoConsulta.next();
         } catch (Exception e) {
             e.printStackTrace();
             return false;
