@@ -79,27 +79,33 @@ public class TarjetaProductoController implements Initializable {
     private double precio;
 
     public void btnAgregar() {
+        // Crear una instancia del controlador principal y obtener el ID del cliente actual.
         MainController mainController = new MainController();
         mainController.obtenerIdCliente();
 
+        // Obtener la cantidad seleccionada del producto desde el Spinner.
         cantidadProducto = prod_spinner.getValue();
+
+        // Inicializar variables para verificar la disponibilidad del producto.
         String check = "";
         String checkAvailable = "SELECT estado FROM producto WHERE id_producto = '" + idProducto + "'";
 
         try {
             int stockActual = 0;
+
+            // Consulta SQL para obtener el stock del producto.
             String checkStock = "SELECT stock FROM producto WHERE id_producto = '" + idProducto + "'";
 
             Connection connect = ConexionDB.conectarDB();
             PreparedStatement consultaPreparada = connect.prepareStatement(checkStock);
-            ResultSet resultadoConsulta  = consultaPreparada.executeQuery();
+            ResultSet resultadoConsulta = consultaPreparada.executeQuery();
 
-            if (resultadoConsulta .next()) {
-                stockActual = resultadoConsulta .getInt("stock");
+            if (resultadoConsulta.next()) {
+                stockActual = resultadoConsulta.getInt("stock");
             }
 
-            if (stockActual == 0){
-                // Si no hay stock, actualiza el estado a "No disponible".
+            // Si no hay stock, actualiza el estado a "No disponible".
+            if (stockActual == 0) {
                 String updateStock = "UPDATE producto SET nombre_producto = '" + prod_name.getText() +
                     "', tipo = '" + tipoProducto +
                     "', stock = 0, precio = " + precio +
@@ -111,14 +117,16 @@ public class TarjetaProductoController implements Initializable {
                 consultaPreparada.executeUpdate();
             }
 
+            // Preparar y ejecutar la consulta para verificar el estado del producto.
             consultaPreparada = connect.prepareStatement(checkAvailable);
-            resultadoConsulta  = consultaPreparada.executeQuery();
+            resultadoConsulta = consultaPreparada.executeQuery();
 
-            if (resultadoConsulta .next()) {
-                check = resultadoConsulta .getString("estado");
+            if (resultadoConsulta.next()) {
+                check = resultadoConsulta.getString("estado");
                 System.out.println("Product Status = " + check);
             }
 
+            // Validar si el producto está disponible y si la cantidad seleccionada es válida.
             if (!check.equals("Disponible") || cantidadProducto == 0) {
                 alerta = new Alert(AlertType.ERROR);
                 alerta.setTitle("Error Message");
@@ -158,8 +166,10 @@ public class TarjetaProductoController implements Initializable {
 
                     consultaPreparada.executeUpdate();
 
-                    // Actualiza el stock restante.
+                    // Calcular el nuevo stock restante después de la compra.
                     int upStock = stockActual - cantidadProducto;
+
+                    // Consulta SQL para actualizar el stock y el estado del producto.
                     String updateStock = "UPDATE producto SET nombre_producto = '" + prod_name.getText() +
                         "', tipo = '" + tipoProducto +
                         "', stock = " + upStock +
@@ -178,6 +188,7 @@ public class TarjetaProductoController implements Initializable {
                     alerta.setContentText("¡Añadido con éxito!");
                     alerta.showAndWait();
 
+                    // Llamar al método para calcular el total del menú en el controlador principal.
                     mainController.calcularTotalDelMenu();
                 }
             }
