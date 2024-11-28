@@ -47,7 +47,6 @@ public class TarjetaProductoController implements Initializable {
         establecerCantidad();
     }
 
-    private Producto producto;
     private Image imagen;
     private String idProducto;
     private String tipoProducto;
@@ -58,7 +57,6 @@ public class TarjetaProductoController implements Initializable {
 
     // Asigna los datos de un producto a la tarjeta.
     public void establecerDatos(Producto producto) {
-        this.producto = producto;
         imagenProducto = producto.getImagen();
         fechaProducto = String.valueOf(producto.getFecha());
         tipoProducto = producto.getTipo();
