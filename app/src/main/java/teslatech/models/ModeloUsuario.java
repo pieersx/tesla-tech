@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class ModeloUsuario {
     // Método para validar si un usuario y su contraseña son correctos
     public static boolean esUsuarioValido(String usuario, String contrasena) {
-        String consultaSQL  = "SELECT usuario, contrasena FROM users WHERE usuario = ? and contrasena = ?";
+        String consultaSQL  = "SELECT usuario, contrasena FROM usuario WHERE usuario = ? and contrasena = ?";
 
         try {
             Connection conexionDB = ConexionDB.conectarDB();
@@ -28,7 +28,7 @@ public class ModeloUsuario {
 
     // Método para verificar si un nombre de usuario ya está registrado
     public static boolean verificarNombreUsuarioExistente(String usuario) {
-        String consultaSQL  = "SELECT usuario FROM users WHERE usuario = ?";
+        String consultaSQL  = "SELECT usuario FROM usuario WHERE usuario = ?";
 
         try {
             Connection conexionDB = ConexionDB.conectarDB();
@@ -46,7 +46,7 @@ public class ModeloUsuario {
 
     // Método para registrar un nuevo usuario
     public static boolean registrarNuevoUsuario(String usuario, String contrasena, String pregunta, String respuesta) {
-        String consultaSQL  = "INSERT INTO users (usuario, contrasena, pregunta, respuesta, fecha) VALUES (?, ?, ?, ?, CURRENT_DATE)";
+        String consultaSQL  = "INSERT INTO usuario (usuario, contrasena, pregunta, respuesta, fecha) VALUES (?, ?, ?, ?, CURRENT_DATE)";
 
         try {
             Connection conexionDB = ConexionDB.conectarDB();
@@ -67,7 +67,7 @@ public class ModeloUsuario {
 
     // Método para validar datos de recuperación de contraseña
     public static boolean validarDatosRecuperacion(String usuario, String pregunta, String respuesta) {
-        String consultaSQL  = "SELECT usuario FROM users WHERE usuario = ? AND pregunta = ? AND respuesta = ?";
+        String consultaSQL  = "SELECT usuario FROM usuario WHERE usuario = ? AND pregunta = ? AND respuesta = ?";
 
         try {
             Connection conexionDB = ConexionDB.conectarDB();
@@ -87,7 +87,7 @@ public class ModeloUsuario {
 
     // Método para actualizar la contraseña de un usuario
     public static boolean actualizarContrasenaUsuario(String usuario, String nuevaContrasena, String pregunta, String respuesta) {
-        String consultaSQL  = "UPDATE users SET contrasena = ?, pregunta = ?, respuesta = ?, fecha = CURRENT_DATE WHERE usuario = ?";
+        String consultaSQL  = "UPDATE usuario SET contrasena = ?, pregunta = ?, respuesta = ?, fecha = CURRENT_DATE WHERE usuario = ?";
 
         try {
             Connection conexionDB = ConexionDB.conectarDB();
@@ -107,7 +107,7 @@ public class ModeloUsuario {
     }
 
     public boolean updatePassword(String usuario, String nuevaContrasena) {
-        String consultaSQL  = "UPDATE users SET contrasena = ? WHERE usuario = ?";
+        String consultaSQL  = "UPDATE usuario SET contrasena = ? WHERE usuario = ?";
         Connection conexionDB = ConexionDB.conectarDB();
         try {
             PreparedStatement consultaPreparada = conexionDB.prepareStatement(consultaSQL );

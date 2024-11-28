@@ -6,35 +6,35 @@ public class Producto {
     private Integer id;
     private String productId;
     private String productName;
-    private String type;
+    private String tipo;
     private Integer stock;
-    private Double price;
-    private String status;
-    private String image;
+    private Double precio;
+    private String estado;
+    private String imagen;
     private Date fecha;
-    private Integer quantity;
+    private Integer cantidad;
 
-    public Producto(Integer id, String productId, String productName, String type, Integer stock, Double price, String status, String image, Date fecha) {
+    public Producto(Integer id, String productId, String productName, String tipo, Integer stock, Double precio, String estado, String imagen, Date fecha) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
-        this.type = type;
+        this.tipo = tipo;
         this.stock = stock;
-        this.price = price;
-        this.status = status;
-        this.image = image;
+        this.precio = precio;
+        this.estado = estado;
+        this.imagen = imagen;
         this.fecha = fecha;
     }
 
-    public Producto(Integer id, String productId, String productName, String type, Integer quantity, Double price, String image, Date fecha){
+    public Producto(Integer id, String productId, String productName, String tipo, Integer cantidad, Double precio, String imagen, Date fecha){
         this.id = id;
         this.productId = productId;
         this.productName = productName;
-        this.type = type;
-        this.price = price;
-        this.image = image;
+        this.tipo = tipo;
+        this.precio = precio;
+        this.imagen = imagen;
         this.fecha = fecha;
-        this.quantity = quantity;
+        this.cantidad = cantidad;
     }
 
     public Integer getId() {
@@ -49,31 +49,31 @@ public class Producto {
         return productName;
     }
 
-    public String getType(){
-        return type;
+    public String getTipo(){
+        return tipo;
     }
 
     public Integer getStock() {
         return stock;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getPrecio() {
+        return precio;
     }
 
-    public String getStatus() {
-        return status;
+    public String getEstado() {
+        return estado;
     }
 
-    public String getImage() {
-        return image;
+    public String getImagen() {
+        return imagen;
     }
 
     public Date getFecha() {
         return fecha;
     }
 
-    public Integer getQuantity(){
-        return quantity;
+    public Integer getCantidad(){
+        return cantidad;
     }
 }

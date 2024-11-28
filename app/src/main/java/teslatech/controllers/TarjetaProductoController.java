@@ -49,32 +49,32 @@ public class TarjetaProductoController implements Initializable {
 
     private Producto producto;
     private Image imagen;
-    private String prodID;
-    private String type;
-    private String prod_date;
+    private String idProducto;
+    private String tipoProducto;
+    private String fechaProducto;
     private String imagenProducto;
-    private SpinnerValueFactory<Integer> spin;
+    private SpinnerValueFactory<Integer> girar;
     private Alert alerta;
 
     // Asigna los datos de un producto a la tarjeta.
     public void establecerDatos(Producto producto) {
         this.producto = producto;
-        imagenProducto = producto.getImage();
-        prod_date = String.valueOf(producto.getFecha());
-        type = producto.getType();
-        prodID = producto.getProductId();
+        imagenProducto = producto.getImagen();
+        fechaProducto = String.valueOf(producto.getFecha());
+        tipoProducto = producto.getTipo();
+        idProducto = producto.getProductId();
         prod_name.setText(producto.getProductName());
-        prod_price.setText("S/" + String.valueOf(producto.getPrice()));
-        String path = "File:" + producto.getImage();
+        prod_price.setText("S/" + String.valueOf(producto.getPrecio()));
+        String path = "File:" + producto.getImagen();
         imagen = new Image(path, 200,200, false, true);
         prod_imageView.setImage(imagen);
-        precio = producto.getPrice();
+        precio = producto.getPrecio();
     }
     private int cantidadProducto;
 
     public void establecerCantidad() {
-        spin = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
-        prod_spinner.setValueFactory(spin);
+        girar = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
+        prod_spinner.setValueFactory(girar);
     }
 
     private double totalP;
@@ -86,11 +86,11 @@ public class TarjetaProductoController implements Initializable {
 
         cantidadProducto = prod_spinner.getValue();
         String check = "";
-        String checkAvailable = "SELECT status FROM product WHERE prod_id = '" + prodID + "'";
+        String checkAvailable = "SELECT estado FROM producto WHERE id_producto = '" + idProducto + "'";
 
         try {
             int stockActual = 0;
-            String checkStock = "SELECT stock FROM product WHERE prod_id = '" + prodID + "'";
+            String checkStock = "SELECT stock FROM producto WHERE id_producto = '" + idProducto + "'";
 
             Connection connect = ConexionDB.conectarDB();
             PreparedStatement consultaPreparada = connect.prepareStatement(checkStock);
@@ -102,12 +102,12 @@ public class TarjetaProductoController implements Initializable {
 
             if (stockActual == 0){
                 // Si no hay stock, actualiza el estado a "No disponible".
-                String updateStock = "UPDATE product SET prod_name = '" + prod_name.getText() +
-                    "', type = '" + type +
-                    "', stock = 0, price = " + precio +
-                    ", status = 'No disponible', image = '" + imagenProducto +
-                    "', fecha = '" + prod_date +
-                    "' WHERE prod_id = '" + prodID + "'";
+                String updateStock = "UPDATE producto SET nombre_producto = '" + prod_name.getText() +
+                    "', tipo = '" + tipoProducto +
+                    "', stock = 0, precio = " + precio +
+                    ", estado = 'No disponible', imagen = '" + imagenProducto +
+                    "', fecha = '" + fechaProducto +
+                    "' WHERE id_producto = '" + idProducto + "'";
 
                 consultaPreparada = connect.prepareStatement(updateStock);
                 consultaPreparada.executeUpdate();
@@ -117,7 +117,7 @@ public class TarjetaProductoController implements Initializable {
             resultadoConsulta  = consultaPreparada.executeQuery();
 
             if (resultadoConsulta .next()) {
-                check = resultadoConsulta .getString("status");
+                check = resultadoConsulta .getString("estado");
                 System.out.println("Product Status = " + check);
             }
 
@@ -139,13 +139,13 @@ public class TarjetaProductoController implements Initializable {
                     imagenProducto = imagenProducto.replace("\\", "\\\\");
 
                     // Inserta el producto en el carrito o tabla de clientes.
-                    String insertarProducto = "INSERT INTO customer " + "(customer_id, prod_id, prod_name, type, quantity, price, fecha, image, em_username) " + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String insertarProducto = "INSERT INTO cliente " + "(id_cliente, id_producto, nombre_producto, tipo, cantidad, precio, fecha, imagen, usuario_empleado) " + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                     consultaPreparada = connect.prepareStatement(insertarProducto);
                     consultaPreparada.setString(1, String.valueOf(Datos.clienteId));
-                    consultaPreparada.setString(2, prodID);
+                    consultaPreparada.setString(2, idProducto);
                     consultaPreparada.setString(3, prod_name.getText());
-                    consultaPreparada.setString(4, type);
+                    consultaPreparada.setString(4, tipoProducto);
                     consultaPreparada.setString(5, String.valueOf(cantidadProducto));
 
                     totalP = (cantidadProducto * precio);
@@ -162,14 +162,14 @@ public class TarjetaProductoController implements Initializable {
 
                     // Actualiza el stock restante.
                     int upStock = stockActual - cantidadProducto;
-                    String updateStock = "UPDATE product SET prod_name = '" + prod_name.getText() +
-                        "', type = '" + type +
+                    String updateStock = "UPDATE producto SET nombre_producto = '" + prod_name.getText() +
+                        "', tipo = '" + tipoProducto +
                         "', stock = " + upStock +
-                        ", price = " + precio +
-                        ", status = '" + check +
-                        "', image = '" + imagenProducto +
-                        "', fecha = '" + prod_date +
-                        "' WHERE prod_id = '" + prodID + "'";
+                        ", precio = " + precio +
+                        ", estado = '" + check +
+                        "', imagen = '" + imagenProducto +
+                        "', fecha = '" + fechaProducto +
+                        "' WHERE id_producto = '" + idProducto + "'";
 
                     consultaPreparada = connect.prepareStatement(updateStock);
                     consultaPreparada.executeUpdate();

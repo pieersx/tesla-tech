@@ -257,7 +257,7 @@ public class MainController implements Initializable {
         java.sql.Date fechaSQL = new java.sql.Date(fechaActual.getTime());
 
         // Consulta SQL para sumar los valores de la columna 'total' de la tabla 'recibos' para la fecha actual.
-        String consulta = "SELECT SUM(total) FROM receipt WHERE fecha = ?";
+        String consulta = "SELECT SUM(total) FROM recibo WHERE fecha = ?";
         double totalIngresosDeHoy = 0;
 
         try {
@@ -278,7 +278,7 @@ public class MainController implements Initializable {
     }
 
     public void mostrarIngresosTotales() {
-        String consulta = "SELECT SUM(total) FROM receipt";
+        String consulta = "SELECT SUM(total) FROM recibo";
         float totalIngresos = 0;
 
         try {
@@ -297,7 +297,7 @@ public class MainController implements Initializable {
     }
 
     public void mostrarNumeroDeProductosVendidos() {
-        String consulta = "SELECT COUNT(quantity) FROM customer";
+        String consulta = "SELECT COUNT(cantidad) FROM cliente";
         int numeroProductosVendidos = 0;
 
         try {
@@ -306,7 +306,7 @@ public class MainController implements Initializable {
             ResultSet resultadoConsulta = consultaPreparada.executeQuery();
 
             if (resultadoConsulta.next()) {
-                numeroProductosVendidos = resultadoConsulta.getInt("COUNT(quantity)");
+                numeroProductosVendidos = resultadoConsulta.getInt("COUNT(cantidad)");
             }
             dashboard_NSP.setText(String.valueOf(numeroProductosVendidos));
 
@@ -318,8 +318,8 @@ public class MainController implements Initializable {
     public void mostrarGraficoDeIngresos() {
         dashboard_incomeChart.getData().clear();
 
-        // Consulta SQL que selecciona la fecha y la suma de los totales de 'receipt' agrupados por fecha.
-        String consulta = "SELECT fecha, SUM(total) FROM receipt GROUP BY fecha ORDER BY TIMESTAMP(fecha)";
+        // Consulta SQL que selecciona la fecha y la suma de los totales de 'recibo' agrupados por fecha.
+        String consulta = "SELECT fecha, SUM(total) FROM recibo GROUP BY fecha ORDER BY TIMESTAMP(fecha)";
 
         try {
             Connection connect = ConexionDB.conectarDB();
@@ -345,8 +345,8 @@ public class MainController implements Initializable {
     public void mostrarGraficoDeClientes(){
         dashboard_CustomerChart.getData().clear();
 
-        // Consulta SQL que selecciona la fecha y cuenta los clientes en la tabla 'receipt' agrupados por fecha.
-        String sql = "SELECT fecha, COUNT(id) FROM receipt GROUP BY fecha ORDER BY TIMESTAMP(fecha)";
+        // Consulta SQL que selecciona la fecha y cuenta los clientes en la tabla 'recibo' agrupados por fecha.
+        String sql = "SELECT fecha, COUNT(id) FROM recibo GROUP BY fecha ORDER BY TIMESTAMP(fecha)";
 
         try {
             Connection connect = ConexionDB.conectarDB();
@@ -371,7 +371,7 @@ public class MainController implements Initializable {
 
     public ObservableList<Cliente> obtenerListaDeClientes() {
         ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
-        String consulta = "SELECT * FROM receipt";
+        String consulta = "SELECT * FROM recibo";
 
         try {
             Connection connect = ConexionDB.conectarDB();
@@ -382,10 +382,10 @@ public class MainController implements Initializable {
             while (resultadoConsulta.next()) {
                 cliente = new Cliente(
                     resultadoConsulta.getInt("id"),
-                    resultadoConsulta.getInt("customer_id"),
+                    resultadoConsulta.getInt("id_cliente"),
                     resultadoConsulta.getDouble("total"),
                     resultadoConsulta.getDate("fecha"),
-                    resultadoConsulta.getString("em_username")
+                    resultadoConsulta.getString("usuario_empleado")
                 );
 
                 listaClientes.add(cliente);
@@ -436,7 +436,7 @@ public class MainController implements Initializable {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
 
         // Consulta SQL para obtener todos los productos del cliente según su ID
-        String consulta = "SELECT * FROM customer WHERE customer_id = " + clienteId;
+        String consulta = "SELECT * FROM cliente WHERE id_cliente = " + clienteId;
 
         try {
             Connection connect = ConexionDB.conectarDB();
@@ -447,12 +447,12 @@ public class MainController implements Initializable {
             while (resultadoConsulta.next()) {
                 producto = new Producto(
                     resultadoConsulta.getInt("id"),
-                    resultadoConsulta.getString("prod_id"),
-                    resultadoConsulta.getString("prod_name"),
-                    resultadoConsulta.getString("type"),
-                    resultadoConsulta.getInt("quantity"),
-                    resultadoConsulta.getDouble("price"),
-                    resultadoConsulta.getString("image"),
+                    resultadoConsulta.getString("id_producto"),
+                    resultadoConsulta.getString("nombre_producto"),
+                    resultadoConsulta.getString("tipo"),
+                    resultadoConsulta.getInt("cantidad"),
+                    resultadoConsulta.getDouble("precio"),
+                    resultadoConsulta.getString("imagen"),
                     resultadoConsulta.getDate("fecha")
                 );
 
@@ -477,19 +477,19 @@ public class MainController implements Initializable {
     public void mostrarDatosDeLaOrden() {
         ObservableList<Producto> listaProductos = obtenerOrdenDelMenu();
         menu_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        menu_col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        menu_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        menu_col_quantity.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        menu_col_price.setCellValueFactory(new PropertyValueFactory<>("precio"));
         menu_tableView.setItems(listaProductos);
     }
 
-    // Obtiene el ID máximo (último ID) de la tabla customer
+    // Obtiene el ID máximo (último ID) de la tabla cliente
     private int clienteId;
 
     // Calcula el total de precios de los productos
     public void calcularTotalDelMenu() {
         obtenerIdCliente();
 
-        String consulta = "SELECT SUM(price) FROM customer WHERE customer_id = " + clienteId;
+        String consulta = "SELECT SUM(precio) FROM cliente WHERE id_cliente = " + clienteId;
 
         try {
             Connection connect = ConexionDB.conectarDB();
@@ -497,7 +497,7 @@ public class MainController implements Initializable {
             ResultSet resultadoConsulta = consultaPreparada.executeQuery();
 
             if (resultadoConsulta.next()) {
-                totalPrecio = resultadoConsulta.getDouble("SUM(price)");
+                totalPrecio = resultadoConsulta.getDouble("SUM(precio)");
             }
 
         } catch (Exception e) {
@@ -506,8 +506,8 @@ public class MainController implements Initializable {
     }
 
     public void obtenerIdCliente() {
-        // Se define la consulta SQL para obtener el valor máximo del campo customer_id en la tabla customer
-        String sql = "SELECT MAX(customer_id) FROM customer";
+        // Se define la consulta SQL para obtener el valor máximo del campo id_cliente en la tabla cliente
+        String sql = "SELECT MAX(id_cliente) FROM cliente";
 
         try {
             Connection connect = ConexionDB.conectarDB();
@@ -515,17 +515,17 @@ public class MainController implements Initializable {
             ResultSet resultadoConsulta = consultaPreparada.executeQuery();
 
             if (resultadoConsulta.next()) {
-                clienteId = resultadoConsulta.getInt("MAX(customer_id)");
+                clienteId = resultadoConsulta.getInt("MAX(id_cliente)");
             }
 
-            // Se define una segunda consulta SQL para obtener el valor máximo del campo customer_id en la tabla receipt
-            String consultaIdRecibo = "SELECT MAX(customer_id) FROM receipt";
+            // Se define una segunda consulta SQL para obtener el valor máximo del campo id_cliente en la tabla recibo
+            String consultaIdRecibo = "SELECT MAX(id_cliente) FROM recibo";
             consultaPreparada = connect.prepareStatement(consultaIdRecibo);
             resultadoConsulta = consultaPreparada.executeQuery();
 
             int reciboId = 0;
             if (resultadoConsulta.next()) {
-                reciboId = resultadoConsulta.getInt("MAX(customer_id)");
+                reciboId = resultadoConsulta.getInt("MAX(id_cliente)");
             }
 
             if (clienteId == 0) {
@@ -544,7 +544,7 @@ public class MainController implements Initializable {
     }
 
     public ObservableList<Producto> obtenerDatosDelMenu() {
-        String consulta = "SELECT * FROM product";
+        String consulta = "SELECT * FROM producto";
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
 
         try {
@@ -555,12 +555,12 @@ public class MainController implements Initializable {
             while (resultadoConsulta.next()) {
                 Producto producto = new Producto(
                     resultadoConsulta.getInt("id"),
-                    resultadoConsulta.getString("prod_id"),
-                    resultadoConsulta.getString("prod_name"),
-                    resultadoConsulta.getString("type"),
+                    resultadoConsulta.getString("id_producto"),
+                    resultadoConsulta.getString("nombre_producto"),
+                    resultadoConsulta.getString("tipo"),
                     resultadoConsulta.getInt("stock"),
-                    resultadoConsulta.getDouble("price"),
-                    resultadoConsulta.getString("image"),
+                    resultadoConsulta.getDouble("precio"),
+                    resultadoConsulta.getString("imagen"),
                     resultadoConsulta.getDate("fecha")
                 );
 
@@ -617,9 +617,9 @@ public class MainController implements Initializable {
         }
     }
 
-    // Muestra el recuento de recibos (receipt)
+    // Muestra el recuento de recibos (recibo)
     public void mostrarNumeroDeClientes() {
-        String consulta = "SELECT COUNT(id) FROM receipt";
+        String consulta = "SELECT COUNT(id) FROM recibo";
         int numeroClientes = 0;
 
         try {
@@ -651,11 +651,11 @@ public class MainController implements Initializable {
         inventory_productID.setText(prodData.getProductId());
         inventory_productName.setText(prodData.getProductName());
         inventory_stock.setText(String.valueOf(prodData.getStock()));
-        inventory_price.setText(String.valueOf(prodData.getPrice()));
+        inventory_price.setText(String.valueOf(prodData.getPrecio()));
 
         // Asigna la imagen y la fecha
-        Datos.path = prodData.getImage();
-        String path = "File:" + prodData.getImage();
+        Datos.path = prodData.getImagen();
+        String path = "File:" + prodData.getImagen();
         Datos.fecha = String.valueOf(prodData.getFecha());
         Datos.id = prodData.getId();
 
@@ -677,8 +677,8 @@ public class MainController implements Initializable {
             Alertas.mostrarError("Por favor, rellene todos los campos en blanco");
 
         } else {
-            String consultaProductoId = "SELECT prod_id FROM product WHERE prod_id = '" + inventory_productID.getText() + "'";
-            String insertarDatos = "INSERT INTO product " + "(prod_id, prod_name, type, stock, price, status, image, fecha) " + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            String consultaProductoId = "SELECT id_producto FROM producto WHERE id_producto = '" + inventory_productID.getText() + "'";
+            String insertarDatos = "INSERT INTO producto " + "(id_producto, nombre_producto, tipo, stock, precio, estado, imagen, fecha) " + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
             try {
                 Connection conexionDB = ConexionDB.conectarDB();
@@ -725,7 +725,7 @@ public class MainController implements Initializable {
             Alertas.mostrarError("Por favor, rellene todos los campos en blanco");
 
         } else {
-            String consulta = "UPDATE product SET prod_id = ?, prod_name = ?, type = ?, stock = ?, price = ?, status = ?, image = ?, fecha = ? WHERE id = ?";
+            String consulta = "UPDATE producto SET id_producto = ?, nombre_producto = ?, tipo = ?, stock = ?, precio = ?, estado = ?, imagen = ?, fecha = ? WHERE id = ?";
 
             try {
                 Connection conexionDB = ConexionDB.conectarDB();
@@ -783,7 +783,7 @@ public class MainController implements Initializable {
 
         // Confirma si el usuario desea eliminar el producto
         if (Alertas.mostrarConfirmacion("¿Está seguro de que desea eliminar el producto de ID: " + inventory_productID.getText() + "?")) {
-            String consulta = "DELETE FROM product WHERE id = ?";
+            String consulta = "DELETE FROM producto WHERE id = ?";
 
             try {
                 Connection conexionDB = ConexionDB.conectarDB();
@@ -832,10 +832,10 @@ public class MainController implements Initializable {
         ObservableList<Producto> inventoryListData = ServicioProducto.obtenerListaProductos();
         inventory_col_productID.setCellValueFactory(new PropertyValueFactory<>("productId"));
         inventory_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("tipo"));
         inventory_col_stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        inventory_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        inventory_col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        inventory_col_price.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        inventory_col_status.setCellValueFactory(new PropertyValueFactory<>("estado"));
         inventory_col_date.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         inventory_tableView.setItems(inventoryListData);
     }
@@ -920,7 +920,7 @@ public class MainController implements Initializable {
             alerta.showAndWait();
         } else {
             calcularTotalDelMenu();
-            String insertPay = "INSERT INTO receipt (customer_id, total, fecha, em_username) " + "VALUES(?, ?, ?, ?)";
+            String insertPay = "INSERT INTO recibo (id_cliente, total, fecha, usuario_empleado) " + "VALUES(?, ?, ?, ?)";
 
             try {
                 Connection connect = ConexionDB.conectarDB();
@@ -995,7 +995,7 @@ public class MainController implements Initializable {
             alerta.setContentText("Seleccione el pedido que desea eliminar");
             alerta.showAndWait();
         } else {
-            String deleteData = "DELETE FROM customer WHERE id = " + getid;
+            String deleteData = "DELETE FROM cliente WHERE id = " + getid;
             try {
                 Connection connect = ConexionDB.conectarDB();
 
