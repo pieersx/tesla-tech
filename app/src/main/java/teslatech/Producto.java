@@ -11,10 +11,10 @@ public class Producto {
     private Double price;
     private String status;
     private String image;
-    private Date date;
+    private Date fecha;
     private Integer quantity;
 
-    public Producto(Integer id, String productId, String productName, String type, Integer stock, Double price, String status, String image, Date date) {
+    public Producto(Integer id, String productId, String productName, String type, Integer stock, Double price, String status, String image, Date fecha) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
@@ -23,17 +23,17 @@ public class Producto {
         this.price = price;
         this.status = status;
         this.image = image;
-        this.date = date;
+        this.fecha = fecha;
     }
 
-    public Producto(Integer id, String productId, String productName, String type, Integer quantity, Double price, String image, Date date){
+    public Producto(Integer id, String productId, String productName, String type, Integer quantity, Double price, String image, Date fecha){
         this.id = id;
         this.productId = productId;
         this.productName = productName;
         this.type = type;
         this.price = price;
         this.image = image;
-        this.date = date;
+        this.fecha = fecha;
         this.quantity = quantity;
     }
 
@@ -69,8 +69,8 @@ public class Producto {
         return image;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getFecha() {
+        return fecha;
     }
 
     public Integer getQuantity(){

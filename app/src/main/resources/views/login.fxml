@@ -15,107 +15,107 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <AnchorPane fx:id="si_loginForm" layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="panelLogin" layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="38.0" layoutY="112.0" styleClass="head-label" stylesheets="@../styles/login.css" text="Iniciar Sesión" textFill="#286155">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="si_username" layoutX="65.0" layoutY="202.0" onAction="#loginBtn" prefHeight="40.0" prefWidth="270.0" promptText="Nombre de Usuario" styleClass="textfield" stylesheets="@../styles/login.css">
+                  <TextField fx:id="txtUsername" layoutX="65.0" layoutY="202.0" onAction="#btnIniciarSesion" prefHeight="40.0" prefWidth="270.0" promptText="Nombre de Usuario" styleClass="textfield" stylesheets="@../styles/login.css">
                      <font>
                         <Font size="14.0" />
                      </font></TextField>
-                  <PasswordField fx:id="si_password" layoutX="65.0" layoutY="266.0" onAction="#loginBtn" prefHeight="40.0" prefWidth="270.0" promptText="Contraseña" styleClass="textfield" stylesheets="@../styles/login.css">
+                  <PasswordField fx:id="txtPassword" layoutX="65.0" layoutY="266.0" onAction="#btnIniciarSesion" prefHeight="40.0" prefWidth="270.0" promptText="Contraseña" styleClass="textfield" stylesheets="@../styles/login.css">
                      <font>
                         <Font size="14.0" />
                      </font></PasswordField>
-                  <Button fx:id="si_loginBtn" layoutX="65.0" layoutY="362.0" mnemonicParsing="false" onAction="#loginBtn" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Iniciar Sesión">
+                  <Button fx:id="btnLogin" layoutX="65.0" layoutY="362.0" mnemonicParsing="false" onAction="#btnIniciarSesion" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Iniciar Sesión">
                      <font>
                         <Font size="14.0" />
                      </font></Button>
-                  <Hyperlink fx:id="si_forgotPass" layoutX="65.0" layoutY="321.0" onAction="#switchForgotPass" text="¿Has Olvidado tu Contraseña?" />
+                  <Hyperlink fx:id="linkForgotPassword" layoutX="65.0" layoutY="321.0" onAction="#linkMostrarFormularioRecuperacion" text="¿Has Olvidado tu Contraseña?" />
                </children></AnchorPane>
-            <AnchorPane fx:id="su_signupForm" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="paneSignup" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="38.0" layoutY="112.0" styleClass="head-label" stylesheets="@../styles/login.css" text="Registrar Cuenta" textFill="#286155">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="su_username" layoutX="65.0" layoutY="178.0" onAction="#regBtn" prefHeight="40.0" prefWidth="270.0" promptText="Nombre de Usuario" styleClass="textfield" stylesheets="@../styles/login.css">
+                  <TextField fx:id="txtSignupUsername" layoutX="65.0" layoutY="178.0" onAction="#btnRegistrarUsuario" prefHeight="40.0" prefWidth="270.0" promptText="Nombre de Usuario" styleClass="textfield" stylesheets="@../styles/login.css">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <PasswordField fx:id="su_password" layoutX="65.0" layoutY="242.0" onAction="#regBtn" prefHeight="40.0" prefWidth="270.0" promptText="Contraseña" styleClass="textfield" stylesheets="@../styles/login.css">
+                  <PasswordField fx:id="txtSignupPassword" layoutX="65.0" layoutY="242.0" onAction="#btnRegistrarUsuario" prefHeight="40.0" prefWidth="270.0" promptText="Contraseña" styleClass="textfield" stylesheets="@../styles/login.css">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </PasswordField>
-                  <Button fx:id="su_signupBtn" layoutX="65.0" layoutY="440.0" mnemonicParsing="false" onAction="#regBtn" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Registrar">
+                  <Button fx:id="btnSignup" layoutX="65.0" layoutY="440.0" mnemonicParsing="false" onAction="#btnRegistrarUsuario" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Registrar">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <ComboBox fx:id="su_question" layoutX="65.0" layoutY="308.0" prefHeight="40.0" prefWidth="270.0" promptText="Preguntas" styleClass="textfield" stylesheets="@../styles/login.css" />
-                  <TextField fx:id="su_answer" layoutX="65.0" layoutY="374.0" onAction="#regBtn" prefHeight="40.0" prefWidth="270.0" promptText="Respuesta" styleClass="textfield" stylesheets="@../styles/login.css">
+                  <ComboBox fx:id="cmbSignupQuestion" layoutX="65.0" layoutY="308.0" prefHeight="40.0" prefWidth="270.0" promptText="Preguntas" styleClass="textfield" stylesheets="@../styles/login.css" />
+                  <TextField fx:id="txtSignupAnswer" layoutX="65.0" layoutY="374.0" onAction="#btnRegistrarUsuario" prefHeight="40.0" prefWidth="270.0" promptText="Respuesta" styleClass="textfield" stylesheets="@../styles/login.css">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="fp_questionForm" layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" visible="false">
+            <AnchorPane fx:id="paneSecurityQuestion" layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" visible="false">
                <children>
                   <Label layoutX="38.0" layoutY="112.0" styleClass="head-label" stylesheets="@../styles/login.css" text="Contraseña Olvidada" textFill="#286155">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Button fx:id="fp_proceedBtn" layoutX="65.0" layoutY="355.0" mnemonicParsing="false" onAction="#proceedBtn" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Acceder">
+                  <Button fx:id="btnProceed" layoutX="65.0" layoutY="355.0" mnemonicParsing="false" onAction="#btnAcceder" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Acceder">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <ComboBox fx:id="fp_question" layoutX="66.0" layoutY="230.0" prefHeight="40.0" prefWidth="270.0" promptText="Preguntas" styleClass="textfield" stylesheets="@../styles/login.css" />
-                  <TextField fx:id="fp_answer" layoutX="66.0" layoutY="284.0" prefHeight="40.0" prefWidth="270.0" promptText="Respuesta" styleClass="textfield" stylesheets="@../styles/login.css" />
-                  <Button fx:id="fp_back" layoutX="154.0" layoutY="471.0" mnemonicParsing="false" onAction="#backToLoginForm" prefHeight="40.0" prefWidth="95.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Volver" />
+                  <ComboBox fx:id="cmbSecurityQuestion" layoutX="66.0" layoutY="230.0" prefHeight="40.0" prefWidth="270.0" promptText="Preguntas" styleClass="textfield" stylesheets="@../styles/login.css" />
+                  <TextField fx:id="txtAnswer" layoutX="66.0" layoutY="284.0" prefHeight="40.0" prefWidth="270.0" promptText="Respuesta" styleClass="textfield" stylesheets="@../styles/login.css" />
+                  <Button fx:id="btnBack" layoutX="154.0" layoutY="471.0" mnemonicParsing="false" onAction="#btnVolverAlFormularioInicioSesion" prefHeight="40.0" prefWidth="95.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Volver" />
                   <FontAwesomeIcon fill="WHITE" glyphName="ANGLE_LEFT" layoutX="167.0" layoutY="501.0" size="2.5em" text="" />
-                  <TextField fx:id="fp_username" layoutX="66.0" layoutY="174.0" prefHeight="40.0" prefWidth="270.0" promptText="Nombre de Usuario" styleClass="textfield" stylesheets="@../styles/login.css" />
+                  <TextField fx:id="txtForgotPasswordUsername" layoutX="66.0" layoutY="174.0" prefHeight="40.0" prefWidth="270.0" promptText="Nombre de Usuario" styleClass="textfield" stylesheets="@../styles/login.css" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="np_newPassForm" layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" visible="false">
+            <AnchorPane fx:id="paneNewPassword" layoutX="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="white-form" stylesheets="@../styles/login.css" visible="false">
                <children>
                   <Label layoutX="38.0" layoutY="112.0" styleClass="head-label" stylesheets="@../styles/login.css" text="Contraseña Olvidada" textFill="#286155">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Button fx:id="np_changePassBtn" layoutX="65.0" layoutY="338.0" mnemonicParsing="false" onAction="#changePassBtn" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Cambiar Contraseña">
+                  <Button fx:id="btnChangePassword" layoutX="65.0" layoutY="338.0" mnemonicParsing="false" onAction="#btnCambiarContrasena" prefHeight="50.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Cambiar Contraseña">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="np_back" layoutX="153.0" layoutY="454.0" mnemonicParsing="false" onAction="#backToQuestionForm" prefHeight="40.0" prefWidth="95.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Volver" />
+                  <Button fx:id="btnBackToLogin" layoutX="153.0" layoutY="454.0" mnemonicParsing="false" onAction="#btnVolverAlFormularioPreguntas" prefHeight="40.0" prefWidth="95.0" styleClass="login-btn" stylesheets="@../styles/login.css" text="Volver" />
                   <FontAwesomeIcon fill="WHITE" glyphName="ANGLE_LEFT" layoutX="165.0" layoutY="484.0" size="2.5em" text="" />
-                  <PasswordField fx:id="np_newPassword" layoutX="65.0" layoutY="200.0" prefHeight="40.0" prefWidth="270.0" promptText="Nueva Contraseña" styleClass="textfield" stylesheets="@../styles/login.css" />
-                  <PasswordField fx:id="np_confirmPassword" layoutX="65.0" layoutY="267.0" prefHeight="40.0" prefWidth="270.0" promptText="Confirmar Contraseña" styleClass="textfield" stylesheets="@../styles/login.css" />
+                  <PasswordField fx:id="txtNewPassword" layoutX="65.0" layoutY="200.0" prefHeight="40.0" prefWidth="270.0" promptText="Nueva Contraseña" styleClass="textfield" stylesheets="@../styles/login.css" />
+                  <PasswordField fx:id="txtConfirmPassword" layoutX="65.0" layoutY="267.0" prefHeight="40.0" prefWidth="270.0" promptText="Confirmar Contraseña" styleClass="textfield" stylesheets="@../styles/login.css" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="side_form" prefHeight="600.0" prefWidth="400.0" styleClass="gradient" stylesheets="@../styles/login.css">
+            <AnchorPane fx:id="paneSidebar" prefHeight="600.0" prefWidth="400.0" styleClass="gradient" stylesheets="@../styles/login.css">
                <children>
                   <Label layoutX="104.0" layoutY="434.0" text="Crear una Cuenta" textFill="WHITE">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Button fx:id="side_CreateBtn" layoutX="75.0" layoutY="485.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="250.0" styleClass="create-btn" stylesheets="@../styles/login.css" text="Crear Nueva Cuenta">
+                  <Button fx:id="btnCreateAccount" layoutX="75.0" layoutY="485.0" mnemonicParsing="false" onAction="#btnAlternarFormulario" prefHeight="50.0" prefWidth="250.0" styleClass="create-btn" stylesheets="@../styles/login.css" text="Crear Nueva Cuenta">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="side_alreadyHave" layoutX="75.0" layoutY="485.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="250.0" styleClass="create-btn" stylesheets="@../styles/login.css" text="¿Ya tienes una cuenta?" visible="false">
+                  <Button fx:id="btnAlreadyHaveAccount" layoutX="75.0" layoutY="485.0" mnemonicParsing="false" onAction="#btnAlternarFormulario" prefHeight="50.0" prefWidth="250.0" styleClass="create-btn" stylesheets="@../styles/login.css" text="¿Ya tienes una cuenta?" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>

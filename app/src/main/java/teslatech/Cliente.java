@@ -6,14 +6,14 @@ public class Cliente {
     private Integer id;
     private Integer customerID;
     private Double total;
-    private Date date;
+    private Date fecha;
     private String emUsername;
 
-    public Cliente(Integer id, Integer customerID, Double total, Date date, String emUsername) {
+    public Cliente(Integer id, Integer customerID, Double total, Date fecha, String emUsername) {
         this.id = id;
         this.customerID = customerID;
         this.total = total;
-        this.date = date;
+        this.fecha = fecha;
         this.emUsername = emUsername;
     }
 
@@ -29,8 +29,8 @@ public class Cliente {
         return total;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getFecha() {
+        return fecha;
     }
 
     public String getEmUsername() {

@@ -11,30 +11,31 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 public class ServicioProducto {
-
     public static ObservableList<Producto> obtenerListaProductos() {
         ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
         String consulta = "SELECT * FROM product";
 
         try {
-            Connection conexion = ConexionDB.conectarDB();
-            PreparedStatement prepare = conexion.prepareStatement(consulta);
-            ResultSet result = prepare.executeQuery();
+            Connection conexionDB = ConexionDB.conectarDB();
+            PreparedStatement consultaPreparada = conexionDB.prepareStatement(consulta);
+            ResultSet resultadoConsulta  = consultaPreparada.executeQuery();
 
-            while (result.next()) {
-                Producto prodData = new Producto(
-                    result.getInt("id"),
-                    result.getString("prod_id"),
-                    result.getString("prod_name"),
-                    result.getString("type"),
-                    result.getInt("stock"),
-                    result.getDouble("price"),
-                    result.getString("status"),
-                    result.getString("image"),
-                    result.getDate("date")
+            while (resultadoConsulta .next()) {
+                Producto producto = new Producto(
+                    resultadoConsulta .getInt("id"),
+                    resultadoConsulta .getString("prod_id"),
+                    resultadoConsulta .getString("prod_name"),
+                    resultadoConsulta .getString("type"),
+                    resultadoConsulta .getInt("stock"),
+                    resultadoConsulta .getDouble("price"),
+                    resultadoConsulta .getString("status"),
+                    resultadoConsulta .getString("image"),
+                    resultadoConsulta .getDate("fecha")
                 );
-                listaProductos.add(prodData);
+
+                listaProductos.add(producto);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,32 +43,35 @@ public class ServicioProducto {
     }
 
     public static void agregarProducto(Producto product) {
-        String consulta = "INSERT INTO product (prod_id, prod_name, type, stock, price, status, image, date) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-        try  {
-            Connection conexion = ConexionDB.conectarDB();
-            PreparedStatement prepare = conexion.prepareStatement(consulta);
-            prepare.setString(1, product.getProductId());
-            prepare.setString(2, product.getProductName());
-            prepare.setString(3, product.getType());
-            prepare.setInt(4, product.getStock());
-            prepare.setDouble(5, product.getPrice());
-            prepare.setString(6, product.getStatus());
-            prepare.setString(7, product.getImage());
-            prepare.setDate(8, product.getDate());
+        String consulta = "INSERT INTO product (prod_id, prod_name, type, stock, price, status, image, fecha) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
-            prepare.executeUpdate();
+        try  {
+            Connection conexionDB = ConexionDB.conectarDB();
+            PreparedStatement consultaPreparada = conexionDB.prepareStatement(consulta);
+            consultaPreparada.setString(1, product.getProductId());
+            consultaPreparada.setString(2, product.getProductName());
+            consultaPreparada.setString(3, product.getType());
+            consultaPreparada.setInt(4, product.getStock());
+            consultaPreparada.setDouble(5, product.getPrice());
+            consultaPreparada.setString(6, product.getStatus());
+            consultaPreparada.setString(7, product.getImage());
+            consultaPreparada.setDate(8, product.getFecha());
+
+            consultaPreparada.executeUpdate();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public static boolean existeProducto(String productId) {
-        String query = "SELECT prod_id FROM product WHERE prod_id = '" + productId + "'";
-        try {
-            Connection conexion = ConexionDB.conectarDB();
-            Statement statement = conexion.createStatement();
-            ResultSet result = statement.executeQuery(query);
 
-            return result.next();
+    public static boolean existeProducto(String productId) {
+        String consultaSQL  = "SELECT prod_id FROM product WHERE prod_id = '" + productId + "'";
+        try {
+            Connection conexionDB = ConexionDB.conectarDB();
+            Statement statement = conexionDB.createStatement();
+            ResultSet resultadoConsulta  = statement.executeQuery(consultaSQL );
+
+            return resultadoConsulta .next();
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -75,21 +79,21 @@ public class ServicioProducto {
     }
 
     public void updateProduct(Producto product) {
-        String consulta = "UPDATE product SET prod_id = ?, prod_name = ?, type = ?, stock = ?, price = ?, status = ?, image = ?, date = ? WHERE id = ?";
-        try (Connection conexion = ConexionDB.conectarDB();
-             PreparedStatement prepare = conexion.prepareStatement(consulta)) {
+        String consulta = "UPDATE product SET prod_id = ?, prod_name = ?, type = ?, stock = ?, price = ?, status = ?, image = ?, fecha = ? WHERE id = ?";
+        try (Connection conexionDB = ConexionDB.conectarDB();
+             PreparedStatement consultaPreparada = conexionDB.prepareStatement(consulta)) {
 
-            prepare.setString(1, product.getProductId());
-            prepare.setString(2, product.getProductName());
-            prepare.setString(3, product.getType());
-            prepare.setInt(4, product.getStock());
-            prepare.setDouble(5, product.getPrice());
-            prepare.setString(6, product.getStatus());
-            prepare.setString(7, product.getImage());
-            prepare.setDate(8, new java.sql.Date(product.getDate().getTime()));
-            prepare.setInt(9, product.getId());
+            consultaPreparada.setString(1, product.getProductId());
+            consultaPreparada.setString(2, product.getProductName());
+            consultaPreparada.setString(3, product.getType());
+            consultaPreparada.setInt(4, product.getStock());
+            consultaPreparada.setDouble(5, product.getPrice());
+            consultaPreparada.setString(6, product.getStatus());
+            consultaPreparada.setString(7, product.getImage());
+            consultaPreparada.setDate(8, new java.sql.Date(product.getFecha().getTime()));
+            consultaPreparada.setInt(9, product.getId());
 
-            prepare.executeUpdate();
+            consultaPreparada.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,11 +102,11 @@ public class ServicioProducto {
 
     public void deleteProduct(int productId) {
         String consulta = "DELETE FROM product WHERE id = ?";
-        try (Connection conexion = ConexionDB.conectarDB();
-             PreparedStatement prepare = conexion.prepareStatement(consulta)) {
+        try (Connection conexionDB = ConexionDB.conectarDB();
+             PreparedStatement consultaPreparada = conexionDB.prepareStatement(consulta)) {
 
-            prepare.setInt(1, productId);
-            prepare.executeUpdate();
+            consultaPreparada.setInt(1, productId);
+            consultaPreparada.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();

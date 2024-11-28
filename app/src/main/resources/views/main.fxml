@@ -41,16 +41,16 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
-                              <Label fx:id="username" alignment="CENTER" layoutX="24.0" layoutY="118.0" prefHeight="21.0" prefWidth="174.0" text="Usuario" textFill="WHITE">
+                              <Label fx:id="usuario" alignment="CENTER" layoutX="24.0" layoutY="118.0" prefHeight="21.0" prefWidth="174.0" text="Usuario" textFill="WHITE">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="dashboard_btn" layoutX="6.0" layoutY="199.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../styles/main.css" text="Panel" />
-                              <Button fx:id="inventory_btn" layoutX="6.0" layoutY="248.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../styles/main.css" text="Inventario" />
-                              <Button fx:id="menu_btn" layoutX="6.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../styles/main.css" text="Componentes" />
-                              <Button fx:id="customers_btn" layoutX="6.0" layoutY="349.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../styles/main.css" text="Clientes" />
-                              <Button fx:id="logout_btn" layoutX="24.0" layoutY="658.0" mnemonicParsing="false" onAction="#logout" stylesheets="@../styles/main.css" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="24.0">
+                              <Button fx:id="dashboard_btn" layoutX="6.0" layoutY="199.0" mnemonicParsing="false" onAction="#cambiarPanel" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../styles/main.css" text="Panel" />
+                              <Button fx:id="inventory_btn" layoutX="6.0" layoutY="248.0" mnemonicParsing="false" onAction="#cambiarPanel" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../styles/main.css" text="Inventario" />
+                              <Button fx:id="menu_btn" layoutX="6.0" layoutY="300.0" mnemonicParsing="false" onAction="#cambiarPanel" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../styles/main.css" text="Componentes" />
+                              <Button fx:id="customers_btn" layoutX="6.0" layoutY="349.0" mnemonicParsing="false" onAction="#cambiarPanel" prefHeight="40.0" prefWidth="210.0" styleClass="nav-btn" stylesheets="@../styles/main.css" text="Clientes" />
+                              <Button fx:id="logout_btn" layoutX="24.0" layoutY="658.0" mnemonicParsing="false" onAction="#cerrarSession" stylesheets="@../styles/main.css" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="24.0">
                                  <graphic>
                                     <FontAwesomeIcon fill="WHITE" glyphName="SIGN_OUT" size="2em" />
                                  </graphic>
@@ -206,7 +206,7 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <TableView fx:id="inventory_tableView" layoutX="18.0" layoutY="16.0" onMouseClicked="#inventorySelectData" prefHeight="254.0" prefWidth="814.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="16.0">
+                                    <TableView fx:id="inventory_tableView" layoutX="18.0" layoutY="16.0" onMouseClicked="#seleccionarDatosInventario" prefHeight="254.0" prefWidth="814.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="16.0">
                                       <columns>
                                         <TableColumn fx:id="inventory_col_productID" prefWidth="75.0" text="Producto ID" />
                                         <TableColumn fx:id="inventory_col_productName" prefWidth="126.0" text="Nombre del Producto" />
@@ -268,11 +268,11 @@
                                           <ImageView fx:id="inventory_imageView" fitHeight="200.0" fitWidth="200.0" layoutX="-5.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <Button fx:id="inventory_importBtn" layoutX="680.0" layoutY="189.0" mnemonicParsing="false" onAction="#inventoryImportBtn" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@../styles/main.css" text="Importar" AnchorPane.rightAnchor="237.0" />
-                                    <Button fx:id="inventory_addBtn" layoutX="105.0" layoutY="189.0" mnemonicParsing="false" onAction="#inventoryAddBtn" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@../styles/main.css" text="Añadir" AnchorPane.bottomAnchor="31.0" />
-                                    <Button fx:id="inventory_updateBtn" layoutX="238.0" layoutY="189.0" mnemonicParsing="false" onAction="#inventoryUpdateBtn" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@../styles/main.css" text="Actualizar" AnchorPane.bottomAnchor="31.0" />
-                                    <Button fx:id="inventory_clearBtn" layoutX="395.0" layoutY="189.0" mnemonicParsing="false" onAction="#inventoryClearBtn" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@../styles/main.css" text="Despejar" AnchorPane.bottomAnchor="31.0" />
-                                    <Button fx:id="inventory_deleteBtn" layoutX="528.0" layoutY="189.0" mnemonicParsing="false" onAction="#inventoryDeleteBtn" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@../styles/main.css" text="Elimnar" AnchorPane.bottomAnchor="31.0" />
+                                    <Button fx:id="inventory_importBtn" layoutX="680.0" layoutY="189.0" mnemonicParsing="false" onAction="#btnImportarImagenInventario" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@../styles/main.css" text="Importar" AnchorPane.rightAnchor="237.0" />
+                                    <Button fx:id="inventory_addBtn" layoutX="105.0" layoutY="189.0" mnemonicParsing="false" onAction="#btnAgregarProductoInventario" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@../styles/main.css" text="Añadir" AnchorPane.bottomAnchor="31.0" />
+                                    <Button fx:id="inventory_updateBtn" layoutX="238.0" layoutY="189.0" mnemonicParsing="false" onAction="#btnActualizarProductoInventario" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@../styles/main.css" text="Actualizar" AnchorPane.bottomAnchor="31.0" />
+                                    <Button fx:id="inventory_clearBtn" layoutX="395.0" layoutY="189.0" mnemonicParsing="false" onAction="#btnLimpiarCamposInventario" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@../styles/main.css" text="Despejar" AnchorPane.bottomAnchor="31.0" />
+                                    <Button fx:id="inventory_deleteBtn" layoutX="528.0" layoutY="189.0" mnemonicParsing="false" onAction="#btnEliminarProductoInventario" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@../styles/main.css" text="Elimnar" AnchorPane.bottomAnchor="31.0" />
                                     <Label layoutX="386.0" layoutY="112.0" text="Status:">
                                        <font>
                                           <Font size="14.0" />
@@ -311,7 +311,7 @@
                                     <String fx:value="radius" />
                                  </styleClass>
                                  <children>
-                                    <TableView fx:id="menu_tableView" layoutX="13.0" layoutY="14.0" onMouseClicked="#menuSelectOrder" prefHeight="249.0" prefWidth="295.0" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0">
+                                    <TableView fx:id="menu_tableView" layoutX="13.0" layoutY="14.0" onMouseClicked="#seleccionarOrdenDelMenu" prefHeight="249.0" prefWidth="295.0" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0">
                                       <columns>
                                         <TableColumn fx:id="menu_col_productName" prefWidth="115.0" text="Nombre Producto" />
                                         <TableColumn fx:id="menu_col_quantity" prefWidth="79.0" text="Cantidad" />
@@ -333,7 +333,7 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="menu_amount" layoutX="182.0" layoutY="311.0" onAction="#menuAmount" prefHeight="25.0" prefWidth="126.0" promptText="S/0.0" AnchorPane.bottomAnchor="230.0" AnchorPane.rightAnchor="12.0" />
+                                    <TextField fx:id="menu_amount" layoutX="182.0" layoutY="311.0" onAction="#calcularCambio" prefHeight="25.0" prefWidth="126.0" promptText="S/0.0" AnchorPane.bottomAnchor="230.0" AnchorPane.rightAnchor="12.0" />
                                     <Label layoutX="121.0" layoutY="343.0" text="Cambio" AnchorPane.bottomAnchor="202.0" AnchorPane.rightAnchor="144.0">
                                        <font>
                                           <Font size="15.0" />
@@ -344,9 +344,9 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="menu_payBtn" layoutX="15.0" layoutY="420.0" mnemonicParsing="false" onAction="#menuPayBtn" prefHeight="41.0" prefWidth="290.0" styleClass="btn" stylesheets="@../styles/main.css" text="Pagar" AnchorPane.bottomAnchor="105.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-                                    <Button fx:id="menu_removeBtn" layoutX="28.0" layoutY="489.0" mnemonicParsing="false" onAction="#menuRemoveBtn" prefHeight="41.0" prefWidth="119.0" styleClass="btn" stylesheets="@../styles/main.css" text="Eliminar" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="28.0" />
-                                    <Button fx:id="menu_receiptBtn" layoutX="173.0" layoutY="489.0" mnemonicParsing="false" onAction="#menuReceiptBtn" prefHeight="41.0" prefWidth="119.0" styleClass="btn" stylesheets="@../styles/main.css" text="Recibo" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="28.0" />
+                                    <Button fx:id="menu_payBtn" layoutX="15.0" layoutY="420.0" mnemonicParsing="false" onAction="#btnPagarMenu" prefHeight="41.0" prefWidth="290.0" styleClass="btn" stylesheets="@../styles/main.css" text="Pagar" AnchorPane.bottomAnchor="105.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+                                    <Button fx:id="menu_removeBtn" layoutX="28.0" layoutY="489.0" mnemonicParsing="false" onAction="#btnEliminarOrdenMenu" prefHeight="41.0" prefWidth="119.0" styleClass="btn" stylesheets="@../styles/main.css" text="Eliminar" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="28.0" />
+                                    <Button fx:id="menu_receiptBtn" layoutX="173.0" layoutY="489.0" mnemonicParsing="false" onAction="#btnGenerarRecibo" prefHeight="41.0" prefWidth="119.0" styleClass="btn" stylesheets="@../styles/main.css" text="Recibo" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="28.0" />
                                  </children>
                               </AnchorPane>
                            </children>

@@ -2,7 +2,7 @@ package teslatech.controllers;
 
 import teslatech.utils.Alertas;
 import teslatech.Datos;
-import teslatech.models.UserModel;
+import teslatech.models.ModeloUsuario;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,81 +29,81 @@ import javafx.util.Duration;
 public class LoginController implements Initializable {
 
     @FXML
-    private TextField fp_answer;
+    private TextField txtAnswer;
 
     @FXML
-    private Button fp_back;
+    private Button btnBack;
 
     @FXML
-    private Button fp_proceedBtn;
+    private Button btnProceed;
 
     @FXML
-    private ComboBox<String> fp_question;
+    private ComboBox<String> cmbSecurityQuestion;
 
     @FXML
-    private AnchorPane fp_questionForm;
+    private AnchorPane paneSecurityQuestion;
 
     @FXML
-    private TextField fp_username;
+    private TextField txtForgotPasswordUsername;
 
     @FXML
-    private Button np_back;
+    private Button btnBackToLogin;
 
     @FXML
-    private Button np_changePassBtn;
+    private Button btnChangePassword;
 
     @FXML
-    private PasswordField np_confirmPassword;
+    private PasswordField txtConfirmPassword;
 
     @FXML
-    private AnchorPane np_newPassForm;
+    private AnchorPane paneNewPassword;
 
     @FXML
-    private PasswordField np_newPassword;
+    private PasswordField txtNewPassword;
 
     @FXML
-    private Hyperlink si_forgotPass;
+    private Hyperlink linkForgotPassword;
 
     @FXML
-    private Button si_loginBtn;
+    private Button btnLogin;
 
     @FXML
-    private AnchorPane si_loginForm;
+    private AnchorPane panelLogin;
 
     @FXML
-    private PasswordField si_password;
+    private PasswordField txtPassword;
 
     @FXML
-    private TextField si_username;
+    private TextField txtUsername;
 
     @FXML
-    private Button side_CreateBtn;
+    private Button btnCreateAccount;
 
     @FXML
-    private Button side_alreadyHave;
+    private Button btnAlreadyHaveAccount;
 
     @FXML
-    private AnchorPane side_form;
+    private AnchorPane paneSidebar;
 
     @FXML
-    private TextField su_answer;
+    private TextField txtSignupAnswer;
 
     @FXML
-    private PasswordField su_password;
+    private PasswordField txtSignupPassword;
 
     @FXML
-    private ComboBox<String> su_question;
+    private ComboBox<String> cmbSignupQuestion;
 
     @FXML
-    private Button su_signupBtn;
+    private Button btnSignup;
 
     @FXML
-    private AnchorPane su_signupForm;
+    private AnchorPane paneSignup;
 
     @FXML
-    private TextField su_username;
+    private TextField txtSignupUsername;
 
-    private String[] questionList = {
+    private String[] listaPreguntas = {
         "¿Cuál es tu color favorito?",
         "¿Cuál es tu comida favorita?",
         "¿Cuál es tu fecha de nacimiento?"
@@ -114,28 +114,28 @@ public class LoginController implements Initializable {
      * ============================== */
 
     // Método para manejar el inicio de sesión
-    public void loginBtn() {
-        String username = si_username.getText();
-        String password = si_password.getText();
+    public void btnIniciarSesion() {
+        String usuario = txtUsername.getText();
+        String contrasena = txtPassword.getText();
 
-        if (si_username.getText().isEmpty() || si_password.getText().isEmpty()) {
+        if (txtUsername.getText().isEmpty() || txtPassword.getText().isEmpty()) {
             Alertas.mostrarError("Nombre de usuario/contraseña incorrectos");
 
             return;
         }
 
-        if (UserModel.isValidUser(username, password)) {
+        if (ModeloUsuario.esUsuarioValido(usuario, contrasena)) {
             Alertas.mostrarInformacion("¡Inicio de sesión exitosamente!");
 
-            Datos.username = username;
-            openMainForm();
+            Datos.usuario = usuario;
+            abrirVistaPrincipal();
         } else {
             Alertas.mostrarError("Nombre de usuario/contraseña incorrectos");
         }
     }
 
     // Método para abrir la vista principal
-    private void openMainForm() {
+    private void abrirVistaPrincipal() {
         try {
             System.out.println(getClass().getResource("/views/main.fxml"));
             Parent root = FXMLLoader.load(getClass().getResource("/views/main.fxml"));
@@ -146,7 +146,7 @@ public class LoginController implements Initializable {
             stage.getIcons().add(icon);
             stage.setScene(new Scene(root));
             stage.show();
-            si_loginBtn.getScene().getWindow().hide();
+            btnLogin.getScene().getWindow().hide();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -157,46 +157,57 @@ public class LoginController implements Initializable {
      * ============================== */
 
     // Método para el registro de usuarios
-    public void regBtn() {
-        String username = su_username.getText();
-        String password = su_password.getText();
-        String question = su_question.getSelectionModel().getSelectedItem();
-        String answer = su_answer.getText();
+    public void btnRegistrarUsuario() {
+        String usuario = txtSignupUsername.getText();
+        String contrasena = txtSignupPassword.getText();
+        String pregunta = cmbSignupQuestion.getSelectionModel().getSelectedItem();
+        String respuesta = txtSignupAnswer.getText();
 
-        if (su_username.getText().isEmpty() || su_password.getText().isEmpty() || su_question.getSelectionModel().getSelectedItem() == null || su_answer.getText().isEmpty()) {
+        if (txtSignupUsername.getText().isEmpty() || txtSignupPassword.getText().isEmpty() || cmbSignupQuestion.getSelectionModel().getSelectedItem() == null || txtSignupAnswer.getText().isEmpty()) {
             Alertas.mostrarError("Por favor, rellene todos los campos en blanco");
 
             return;
         }
 
-        if (UserModel.isUsernameTaken(username)) {
+        if (ModeloUsuario.verificarNombreUsuarioExistente(usuario)) {
             Alertas.mostrarError("El nombre de usuario ya está en uso");
-        } else if (password.length() < 8) {
+        } else if (contrasena.length() < 8) {
             Alertas.mostrarError("La contraseña debe tener al menos 8 caracteres");
-        } else if (UserModel.registerUser(username, password, question, answer)) {
+        } else if (ModeloUsuario.registrarNuevoUsuario(usuario, contrasena, pregunta, respuesta)) {
             Alertas.mostrarInformacion("¡Cuenta registrada con éxito!");
-            clearSignupForm();
+
+            limpiarFormularioRegistro();
+
+            TranslateTransition transicionFormulario = new TranslateTransition();
+            transicionFormulario.setNode(paneSidebar);
+            transicionFormulario.setToX(0);
+            transicionFormulario.setDuration(Duration.seconds(.5));
+            transicionFormulario.setOnFinished((ActionEvent e) -> {
+                btnAlreadyHaveAccount.setVisible(false);
+                btnCreateAccount.setVisible(true);
+            });
+            transicionFormulario.play();
         }
     }
 
     // Limpiar formulario de registro
-    private void clearSignupForm() {
-        su_username.setText("");
-        su_password.setText("");
-        su_question.getSelectionModel().clearSelection();
-        su_answer.setText("");
+    private void limpiarFormularioRegistro() {
+        txtSignupUsername.setText("");
+        txtSignupPassword.setText("");
+        cmbSignupQuestion.getSelectionModel().clearSelection();
+        txtSignupAnswer.setText("");
 
-        np_confirmPassword.setText("");
-        np_newPassword.setText("");
-        fp_question.getSelectionModel().clearSelection();
-        fp_answer.setText("");
-        fp_username.setText("");
+        txtConfirmPassword.setText("");
+        txtNewPassword.setText("");
+        cmbSecurityQuestion.getSelectionModel().clearSelection();
+        txtAnswer.setText("");
+        txtForgotPasswordUsername.setText("");
     }
 
     // Cargar lista de preguntas de seguridad en el formulario de registro
-    public void regLquestionList() {
-        ObservableList<String> listData = FXCollections.observableArrayList(questionList);
-        su_question.setItems(listData);
+    public void cargarListaPreguntasRegistro() {
+        ObservableList<String> listData = FXCollections.observableArrayList(listaPreguntas);
+        cmbSignupQuestion.setItems(listData);
     }
 
     /* ==============================
@@ -204,59 +215,59 @@ public class LoginController implements Initializable {
      * ============================== */
 
     // Mostrar preguntas de seguridad en el formulario de recuperación
-    public void forgotPassQuestionList() {
-        ObservableList<String> listData = FXCollections.observableArrayList(questionList);
-        fp_question.setItems(listData);
+    public void cargarListaPreguntasRecuperacion() {
+        ObservableList<String> listData = FXCollections.observableArrayList(listaPreguntas);
+        cmbSecurityQuestion.setItems(listData);
     }
 
     // Mostrar preguntas de seguridad en el formulario de recuperación
-    public void proceedBtn() {
-        String username = fp_username.getText();
-        String question = fp_question.getSelectionModel().getSelectedItem();
-        String answer = fp_answer.getText();
+    public void btnAcceder() {
+        String usuario = txtForgotPasswordUsername.getText();
+        String pregunta = cmbSecurityQuestion.getSelectionModel().getSelectedItem();
+        String respuesta = txtAnswer.getText();
 
-        if (fp_username.getText().isEmpty() || fp_question.getSelectionModel().getSelectedItem() == null || fp_answer.getText().isEmpty()) {
+        if (txtForgotPasswordUsername.getText().isEmpty() || cmbSecurityQuestion.getSelectionModel().getSelectedItem() == null || txtAnswer.getText().isEmpty()) {
             Alertas.mostrarError("Por favor, rellene todos los campos en blanco");
 
             return;
         }
 
-        if (UserModel.isValidRecoveryData(username, question, answer)) {
+        if (ModeloUsuario.validarDatosRecuperacion(usuario, pregunta, respuesta)) {
             Alertas.mostrarInformacion("Usuario encontrado");
-            np_newPassForm.setVisible(true);
-            fp_questionForm.setVisible(false);
+            paneNewPassword.setVisible(true);
+            paneSecurityQuestion.setVisible(false);
         } else {
             Alertas.mostrarError("Usuario no encontrado");
         }
     }
 
     // Cambio de contraseña
-    public void changePassBtn() {
-        String newPassword = np_newPassword.getText();
-        String confirmPassword = np_confirmPassword.getText();
-        String username = fp_username.getText();
-        String queston = fp_question.getSelectionModel().getSelectedItem();
-        String answer = fp_answer.getText();
+    public void btnCambiarContrasena() {
+        String nuevaContrasena = txtNewPassword.getText();
+        String confirmarContrasena = txtConfirmPassword.getText();
+        String usuario = txtForgotPasswordUsername.getText();
+        String pregunta = cmbSecurityQuestion.getSelectionModel().getSelectedItem();
+        String respuesta = txtAnswer.getText();
 
-        if (np_newPassword.getText().isEmpty() || np_confirmPassword.getText().isEmpty()) {
+        if (txtNewPassword.getText().isEmpty() || txtConfirmPassword.getText().isEmpty()) {
             Alertas.mostrarError("Por favor, rellene todos los campos en blanco");
 
             return;
         }
 
-        if (!newPassword.equals(confirmPassword)) {
+        if (!nuevaContrasena.equals(confirmarContrasena)) {
             Alertas.mostrarError("Las contraseñas no coinciden");
 
             return;
         }
 
-        if (UserModel.updateUserPassword(username, newPassword, queston, answer)) {
+        if (ModeloUsuario.actualizarContrasenaUsuario(usuario, nuevaContrasena, pregunta, respuesta)) {
             Alertas.mostrarInformacion("¡Contraseña cambiada exitosamente!");
 
-            si_loginForm.setVisible(true);
-            np_newPassForm.setVisible(false);
+            panelLogin.setVisible(true);
+            paneNewPassword.setVisible(false);
 
-            clearSignupForm();
+            limpiarFormularioRegistro();
         } else {
             Alertas.mostrarError("Error al cambiar la contraseña");
         }
@@ -267,64 +278,61 @@ public class LoginController implements Initializable {
      * ============================== */
 
     // Transición al formulario de recuperación de contraseña
-     public void switchForgotPass() {
-        fp_questionForm.setVisible(true);
-        si_loginForm.setVisible(false);
-        forgotPassQuestionList();
-    }
-
-    // Volver al formulario de inicio de sesión
-    public void backToLoginForm(){
-        si_loginForm.setVisible(true);
-        fp_questionForm.setVisible(false);
+     public void linkMostrarFormularioRecuperacion() {
+        paneSecurityQuestion.setVisible(true);
+        panelLogin.setVisible(false);
+        cargarListaPreguntasRecuperacion();
     }
 
     // Volver al formulario de preguntas de seguridad
-    public void backToQuestionForm(){
-        fp_questionForm.setVisible(true);
-        np_newPassForm.setVisible(false);
+    public void btnVolverAlFormularioPreguntas(){
+        paneSecurityQuestion.setVisible(true);
+        paneNewPassword.setVisible(false);
+    }
+
+    // Volver al formulario de inicio de sesión
+    public void btnVolverAlFormularioInicioSesion(){
+        panelLogin.setVisible(true);
+        paneSecurityQuestion.setVisible(false);
     }
 
     // Manejar transición entre formularios de login y registro
-    public void switchForm(ActionEvent event) {
-        TranslateTransition slider = new TranslateTransition();
+    public void btnAlternarFormulario(ActionEvent event) {
+        TranslateTransition transicionFormulario = new TranslateTransition();
 
-        if (event.getSource() == side_CreateBtn) {
-            slider.setNode(side_form);
-            slider.setToX(400);
-            slider.setDuration(Duration.seconds(.5));
+        if (event.getSource() == btnCreateAccount) {
+            transicionFormulario.setNode(paneSidebar);
+            transicionFormulario.setToX(400);
+            transicionFormulario.setDuration(Duration.seconds(.5));
 
-            slider.setOnFinished((ActionEvent e) -> {
-                side_alreadyHave.setVisible(true);
-                side_CreateBtn.setVisible(false);
-                fp_questionForm.setVisible(false);
-                si_loginForm.setVisible(true);
-                np_newPassForm.setVisible(false);
+            transicionFormulario.setOnFinished((ActionEvent e) -> {
+                btnAlreadyHaveAccount.setVisible(true);
+                btnCreateAccount.setVisible(false);
+                paneSecurityQuestion.setVisible(false);
+                panelLogin.setVisible(true);
+                paneNewPassword.setVisible(false);
 
-                regLquestionList();
+                cargarListaPreguntasRegistro();
             });
-            slider.play();
-        } else if (event.getSource() == side_alreadyHave) {
-            slider.setNode(side_form);
-            slider.setToX(0);
-            slider.setDuration(Duration.seconds(.5));
+            transicionFormulario.play();
+        } else if (event.getSource() == btnAlreadyHaveAccount) {
+            transicionFormulario.setNode(paneSidebar);
+            transicionFormulario.setToX(0);
+            transicionFormulario.setDuration(Duration.seconds(.5));
 
-            slider.setOnFinished((ActionEvent e) -> {
-                side_alreadyHave.setVisible(false);
-                side_CreateBtn.setVisible(true);
-                fp_questionForm.setVisible(false);
-                si_loginForm.setVisible(true);
-                np_newPassForm.setVisible(false);
+            transicionFormulario.setOnFinished((ActionEvent e) -> {
+                btnAlreadyHaveAccount.setVisible(false);
+                btnCreateAccount.setVisible(true);
+                paneSecurityQuestion.setVisible(false);
+                panelLogin.setVisible(true);
+                paneNewPassword.setVisible(false);
             });
-            slider.play();
+            transicionFormulario.play();
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    }
 
-    // @Override
-    // public void initialize(URL location, ResourceBundle resources) {
-    // }
+    }
 }

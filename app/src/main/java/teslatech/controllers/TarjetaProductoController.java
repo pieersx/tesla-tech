@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-// import javafx.event.ActionEvent;x
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -45,164 +44,148 @@ public class TarjetaProductoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setQuantity();
+        establecerCantidad();
     }
 
-    private Producto prodData;
-    private Image image;
-
+    private Producto producto;
+    private Image imagen;
     private String prodID;
     private String type;
     private String prod_date;
-    private String prod_image;
-
+    private String imagenProducto;
     private SpinnerValueFactory<Integer> spin;
-
-    private Connection connect;
-    private PreparedStatement prepare;
-    private ResultSet result;
-
     private Alert alerta;
 
-    public void setData(Producto prodData) {
-        this.prodData = prodData;
-
-        prod_image = prodData.getImage();
-        prod_date = String.valueOf(prodData.getDate());
-        type = prodData.getType();
-        prodID = prodData.getProductId();
-        prod_name.setText(prodData.getProductName());
-        prod_price.setText("S/" + String.valueOf(prodData.getPrice()));
-        String path = "File:" + prodData.getImage();
-        image = new Image(path, 200,200, false, true);
-        prod_imageView.setImage(image);
-        pr = prodData.getPrice();
-
+    // Asigna los datos de un producto a la tarjeta.
+    public void establecerDatos(Producto producto) {
+        this.producto = producto;
+        imagenProducto = producto.getImage();
+        prod_date = String.valueOf(producto.getFecha());
+        type = producto.getType();
+        prodID = producto.getProductId();
+        prod_name.setText(producto.getProductName());
+        prod_price.setText("S/" + String.valueOf(producto.getPrice()));
+        String path = "File:" + producto.getImage();
+        imagen = new Image(path, 200,200, false, true);
+        prod_imageView.setImage(imagen);
+        precio = producto.getPrice();
     }
-    private int qty;
+    private int cantidadProducto;
 
-    public void setQuantity() {
+    public void establecerCantidad() {
         spin = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 0);
         prod_spinner.setValueFactory(spin);
     }
 
     private double totalP;
-    private double pr;
+    private double precio;
 
-    public void addBtn() {
-
+    public void btnAgregar() {
         MainController mainController = new MainController();
-        mainController.customerID();
+        mainController.obtenerIdCliente();
 
-        qty = prod_spinner.getValue();
+        cantidadProducto = prod_spinner.getValue();
         String check = "";
-        String checkAvailable = "SELECT status FROM product WHERE prod_id = '"
-                + prodID + "'";
-
-        connect = ConexionDB.conectarDB();
+        String checkAvailable = "SELECT status FROM product WHERE prod_id = '" + prodID + "'";
 
         try {
-            int checkStck = 0;
-            String checkStock = "SELECT stock FROM product WHERE prod_id = '"
-                    + prodID + "'";
+            int stockActual = 0;
+            String checkStock = "SELECT stock FROM product WHERE prod_id = '" + prodID + "'";
 
-            prepare = connect.prepareStatement(checkStock);
-            result = prepare.executeQuery();
+            Connection connect = ConexionDB.conectarDB();
+            PreparedStatement consultaPreparada = connect.prepareStatement(checkStock);
+            ResultSet resultadoConsulta  = consultaPreparada.executeQuery();
 
-            if (result.next()) {
-                checkStck = result.getInt("stock");
+            if (resultadoConsulta .next()) {
+                stockActual = resultadoConsulta .getInt("stock");
             }
 
-            if(checkStck == 0){
+            if (stockActual == 0){
+                // Si no hay stock, actualiza el estado a "No disponible".
+                String updateStock = "UPDATE product SET prod_name = '" + prod_name.getText() +
+                    "', type = '" + type +
+                    "', stock = 0, price = " + precio +
+                    ", status = 'No disponible', image = '" + imagenProducto +
+                    "', fecha = '" + prod_date +
+                    "' WHERE prod_id = '" + prodID + "'";
 
-                String updateStock = "UPDATE product SET prod_name = '"
-                            + prod_name.getText() + "', type = '"
-                            + type + "', stock = 0, price = " + pr
-                            + ", status = 'No disponible', image = '"
-                            + prod_image + "', date = '"
-                            + prod_date + "' WHERE prod_id = '"
-                            + prodID + "'";
-                prepare = connect.prepareStatement(updateStock);
-                prepare.executeUpdate();
-
+                consultaPreparada = connect.prepareStatement(updateStock);
+                consultaPreparada.executeUpdate();
             }
 
-            prepare = connect.prepareStatement(checkAvailable);
-            result = prepare.executeQuery();
+            consultaPreparada = connect.prepareStatement(checkAvailable);
+            resultadoConsulta  = consultaPreparada.executeQuery();
 
-            if (result.next()) {
-                check = result.getString("status");
+            if (resultadoConsulta .next()) {
+                check = resultadoConsulta .getString("status");
                 System.out.println("Product Status = " + check);
             }
 
-            if (!check.equals("Disponible") || qty == 0) {
+            if (!check.equals("Disponible") || cantidadProducto == 0) {
                 alerta = new Alert(AlertType.ERROR);
                 alerta.setTitle("Error Message");
                 alerta.setHeaderText(null);
-                alerta.setContentText("Something Wrong :3");
+                alerta.setContentText("Algo va mal");
                 alerta.showAndWait();
             } else {
 
-                if (checkStck < qty) {
+                if (stockActual < cantidadProducto) {
                     alerta = new Alert(AlertType.ERROR);
                     alerta.setTitle("Error Message");
                     alerta.setHeaderText(null);
-                    alerta.setContentText("Invalid. This product is Out of stock");
+                    alerta.setContentText("No válido. Este producto está agotado");
                     alerta.showAndWait();
                 } else {
-                    prod_image = prod_image.replace("\\", "\\\\");
+                    imagenProducto = imagenProducto.replace("\\", "\\\\");
 
-                    String insertData = "INSERT INTO customer "
-                            + "(customer_id, prod_id, prod_name, type, quantity, price, date, image, em_username) "
-                            + "VALUES(?,?,?,?,?,?,?,?,?)";
-                    prepare = connect.prepareStatement(insertData);
-                    prepare.setString(1, String.valueOf(Datos.cID));
-                    prepare.setString(2, prodID);
-                    prepare.setString(3, prod_name.getText());
-                    prepare.setString(4, type);
-                    prepare.setString(5, String.valueOf(qty));
+                    // Inserta el producto en el carrito o tabla de clientes.
+                    String insertarProducto = "INSERT INTO customer " + "(customer_id, prod_id, prod_name, type, quantity, price, fecha, image, em_username) " + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                    totalP = (qty * pr);
-                    prepare.setString(6, String.valueOf(totalP));
+                    consultaPreparada = connect.prepareStatement(insertarProducto);
+                    consultaPreparada.setString(1, String.valueOf(Datos.clienteId));
+                    consultaPreparada.setString(2, prodID);
+                    consultaPreparada.setString(3, prod_name.getText());
+                    consultaPreparada.setString(4, type);
+                    consultaPreparada.setString(5, String.valueOf(cantidadProducto));
 
-                    Date date = new Date();
-                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                    prepare.setString(7, String.valueOf(sqlDate));
+                    totalP = (cantidadProducto * precio);
+                    consultaPreparada.setString(6, String.valueOf(totalP));
 
-                    prepare.setString(8, prod_image);
-                    prepare.setString(9, Datos.username);
+                    Date fecha = new Date();
+                    java.sql.Date sqlDate = new java.sql.Date(fecha.getTime());
+                    consultaPreparada.setString(7, String.valueOf(sqlDate));
 
-                    prepare.executeUpdate();
+                    consultaPreparada.setString(8, imagenProducto);
+                    consultaPreparada.setString(9, Datos.usuario);
 
-                    int upStock = checkStck - qty;
+                    consultaPreparada.executeUpdate();
 
-                    System.out.println("Date: " + prod_date);
-                    System.out.println("Image: " + prod_image);
+                    // Actualiza el stock restante.
+                    int upStock = stockActual - cantidadProducto;
+                    String updateStock = "UPDATE product SET prod_name = '" + prod_name.getText() +
+                        "', type = '" + type +
+                        "', stock = " + upStock +
+                        ", price = " + precio +
+                        ", status = '" + check +
+                        "', image = '" + imagenProducto +
+                        "', fecha = '" + prod_date +
+                        "' WHERE prod_id = '" + prodID + "'";
 
-                    String updateStock = "UPDATE product SET prod_name = '"
-                            + prod_name.getText() + "', type = '"
-                            + type + "', stock = " + upStock + ", price = " + pr
-                            + ", status = '"
-                            + check + "', image = '"
-                            + prod_image + "', date = '"
-                            + prod_date + "' WHERE prod_id = '"
-                            + prodID + "'";
-
-                    prepare = connect.prepareStatement(updateStock);
-                    prepare.executeUpdate();
+                    consultaPreparada = connect.prepareStatement(updateStock);
+                    consultaPreparada.executeUpdate();
 
                     alerta = new Alert(AlertType.INFORMATION);
                     alerta.setTitle("Information Message");
                     alerta.setHeaderText(null);
-                    alerta.setContentText("Successfully Added!");
+                    alerta.setContentText("¡Añadido con éxito!");
                     alerta.showAndWait();
 
-                    mainController.menuGetTotal();
+                    mainController.calcularTotalDelMenu();
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
